@@ -1,5 +1,10 @@
 <?tyhp
 
+function test_vimeo_psalm_package_loads(): bool
+{
+    return true;
+}
+
 function test_psalm_register_hooks(\Psalm\Plugin\RegistrationInterface $registration): void
 {
     $registration->registerHooksFromClass(\Psalm\Plugin\Shepherd::class);

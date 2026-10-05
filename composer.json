@@ -8,7 +8,7 @@
     ],
     "type": "library",
     "license": "Apache-2.0",
-    "version": "6.17.2.0",
+    "version": "7.0.0.0-beta19",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {
@@ -18,7 +18,8 @@
             "require": {
                 "tyhpdef/php": "@dev",
                 "tyhpdef/nikic-php-parser": "@dev",
-                "tyhpdef/php-ext-simplexml": "@dev"
+                "tyhpdef/php-ext-simplexml": "@dev",
+                "tyhpdef/felixfbecker-language-server-protocol": "@dev"
             },
             "package": {
                 "include": [
@@ -35,11 +36,12 @@
     },
     "require": {
         "php": ">=8.2",
-        "vimeo/psalm": "6.17.2"
+        "vimeo/psalm": "7.0.0-beta19"
     },
     "require-dev": {
         "tyhpdef/php": "@dev",
         "tyhpdef/nikic-php-parser": "@dev",
-        "tyhpdef/php-ext-simplexml": "@dev"
+        "tyhpdef/php-ext-simplexml": "@dev",
+        "tyhpdef/felixfbecker-language-server-protocol": "@dev"
     }
 }
