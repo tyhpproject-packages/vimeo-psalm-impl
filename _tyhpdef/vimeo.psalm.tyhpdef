@@ -4,6 +4,10 @@
  * Generated from PHP source
  */
 namespace Psalm {
+    /**
+    * @api
+    * @generated
+    */
     final class Aliases {
         use \Psalm\Storage\UnserializeMemoryUsageSuppressionTrait;
         public ?int $namespace_first_stmt_start ?? null;
@@ -18,7 +22,10 @@ namespace Psalm {
         /**
         * A map of fully-qualified use declarations to the files
         *
-        * that reference them (keyed by filename)
+        * that reference them (keyed by filename).
+        * 
+        * Separated from the CodeUseGraph because a use import does not
+        * automatically mean a class is actually used.
         *
         * @var array<mixed, array<int, CodeLocation>>
         * @generated
@@ -129,6 +136,75 @@ namespace Psalm {
         public bool $track_unused_suppressions ?? false;
         public bool $literal_array_key_check ?? false;
         /**
+        * Records a reference to a class from the code described by $context
+        *
+        * (or the top-level code of the file of $location).
+        *
+        * @param string $fq_class_name_lc
+        * @psalm-external-mutation-free
+        * @generated
+        */
+        public function addReferenceToClass(string $fq_class_name_lc, ?\Psalm\CodeLocation $location = null, ?\Psalm\Context $context = null, ?string $file_path = null): void;
+        /**
+        * Records a reference to a property. Only reads make the property used,
+        *
+        * but writes are still recorded for reference lookups and cache invalidation.
+        *
+        * @param string $fq_class_name_lc
+        * @param string $property_name without the leading `$`
+        * @psalm-external-mutation-free
+        * @generated
+        */
+        public function addReferenceToProperty(string $fq_class_name_lc, string $property_name, bool $reading, ?\Psalm\CodeLocation $location = null, ?\Psalm\Context $context = null, ?string $file_path = null): void;
+        /**
+        * Records a reference to a function or method, optionally marking its
+        *
+        * return value as used too.
+        *
+        * @param string $function_id
+        * @psalm-external-mutation-free
+        * @generated
+        */
+        public function addReferenceToFunctionLike(string $function_id, ?\Psalm\CodeLocation $location = null, ?\Psalm\Context $context = null, bool $is_return_value_used = false, ?string $file_path = null): void;
+        /**
+        * Records a reference to a method that does not exist (yet), so that the
+        *
+        * referencing code is re-analysed if the method gets added.
+        *
+        * @param string $method_id
+        * @psalm-external-mutation-free
+        * @generated
+        */
+        public function addReferenceToMissingMethod(string $method_id, ?\Psalm\CodeLocation $location = null, ?\Psalm\Context $context = null, ?string $file_path = null): void;
+        /**
+        * Records a reference to a property that does not exist (yet), so that the
+        *
+        * referencing code is re-analysed if the property gets added.
+        *
+        * @param string $fq_class_name_lc
+        * @param string $property_name without the leading `$`
+        * @psalm-external-mutation-free
+        * @generated
+        */
+        public function addReferenceToMissingProperty(string $fq_class_name_lc, string $property_name, ?\Psalm\CodeLocation $location = null, ?\Psalm\Context $context = null, ?string $file_path = null): void;
+        /**
+        * @param string $fq_class_name_lc
+        * @param string $const_name case-sensitive constant name
+        * @psalm-external-mutation-free
+        * @generated
+        */
+        public function addReferenceToClassConstant(string $fq_class_name_lc, string $const_name, ?\Psalm\CodeLocation $location = null, ?\Psalm\Context $context = null, ?string $file_path = null): void;
+        /**
+        * Records that the code described by $context resolves a class name
+        *
+        * through a `use` import alias of the given file, so that it gets
+        * re-analysed when the import changes.
+        *
+        * @psalm-external-mutation-free
+        * @generated
+        */
+        public function addReferenceToUseAlias(string $alias, string $file_path, ?\Psalm\Context $context = null): void;
+        /**
         * Used to register a taint, or to fetch the ID of an already registered taint by its alias.
         *
         * Returns null and emits an issue if a code location is passed and there are no more taint slots.
@@ -154,6 +230,7 @@ namespace Psalm {
         public function collectLocations(): void;
         /**
         * @param string $find_unused_code
+        * @psalm-external-mutation-free
         * @generated
         */
         public function reportUnusedCode(string $find_unused_code = 'auto'): void;
@@ -198,29 +275,35 @@ namespace Psalm {
         */
         public function createFileStorageForPath(string $file_path): \Psalm\Storage\FileStorage;
         /**
-        * @return array<int, CodeLocation>
-        * @psalm-external-mutation-free
+        * @return array<string, CodeLocation>
+        * @psalm-mutation-free
         * @generated
         */
-        public function findReferencesToSymbol(string $symbol): array<int, \Psalm\CodeLocation>;
+        public function findReferencesToSymbol(string $symbol): array<string, \Psalm\CodeLocation>;
         /**
-        * @return array<int, CodeLocation>
-        * @psalm-external-mutation-free
+        * @return array<string, CodeLocation>
+        * @psalm-mutation-free
         * @generated
         */
-        public function findReferencesToMethod(string $method_id): array<int, \Psalm\CodeLocation>;
+        public function findReferencesToMethod(string $method_id): array<string, \Psalm\CodeLocation>;
         /**
-        * @return array<int, CodeLocation>
-        * @psalm-external-mutation-free
+        * @return array<string, CodeLocation>
+        * @psalm-mutation-free
         * @generated
         */
-        public function findReferencesToProperty(string $property_id): array<int, \Psalm\CodeLocation>;
+        public function findReferencesToProperty(string $property_id): array<string, \Psalm\CodeLocation>;
         /**
-        * @return array<int, CodeLocation>
-        * @psalm-external-mutation-free
+        * @return array<string, CodeLocation>
+        * @psalm-mutation-free
         * @generated
         */
-        public function findReferencesToClassLike(string $fq_class_name): array<int, \Psalm\CodeLocation>;
+        public function findReferencesToClassLike(string $fq_class_name): array<string, \Psalm\CodeLocation>;
+        /**
+        * @return array<string, CodeLocation>
+        * @psalm-mutation-free
+        * @generated
+        */
+        public function findReferencesToClassConstant(string $const_id): array<string, \Psalm\CodeLocation>;
         /**
         * @psalm-external-mutation-free
         * @generated
@@ -325,6 +408,12 @@ namespace Psalm {
         * @generated
         */
         public function traitHasCorrectCasing(string $fq_trait_name): bool;
+        /**
+        * Whether or not a given property exists
+        *
+        * @generated
+        */
+        public function propertyExists(string $property_id, bool $read_mode, ?\Psalm\StatementsSource $source = null, ?\Psalm\Context $context = null, ?\Psalm\CodeLocation $code_location = null): bool;
         /**
         * @psalm-external-mutation-free
         * @generated
@@ -458,12 +547,12 @@ namespace Psalm {
         * @psalm-external-mutation-free
         * @generated
         */
-        public function addTaintSource(\Psalm\Type\Union $expr_type, string $taint_id, int $taints = \Psalm\Type\TaintKind::ALL_INPUT, ?\Psalm\CodeLocation $code_location = null): \Psalm\Type\Union;
+        public function addTaintSource(\Psalm\Type\Union $expr_type, string $taint_id, \Psalm\CodeLocation $code_location, int $taints = \Psalm\Type\TaintKind::ALL_INPUT): \Psalm\Type\Union;
         /**
         * @psalm-external-mutation-free
         * @generated
         */
-        public function addTaintSink(string $taint_id, int $taints = \Psalm\Type\TaintKind::ALL_INPUT, ?\Psalm\CodeLocation $code_location = null): void;
+        public function addTaintSink(string $taint_id, \Psalm\CodeLocation $code_location, int $taints = \Psalm\Type\TaintKind::ALL_INPUT): void;
         /**
         * @psalm-mutation-free
         * @generated
@@ -482,6 +571,7 @@ namespace Psalm {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     class CodeLocation {
@@ -516,7 +606,6 @@ namespace Psalm {
         */
         public function __unserialize(array $properties): void;
         /**
-        * @psalm-suppress PossiblyUnusedMethod Part of public API
         * @return self
         * @generated
         */
@@ -1059,6 +1148,10 @@ namespace Psalm {
         */
         public function getUniversalObjectCrates(): array<int, mixed>;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class Context {
         /**
         * @var array<string, \Psalm\Type\Union>
@@ -1300,6 +1393,10 @@ namespace Psalm {
         public bool $inside_loop ?? false;
         public ?\Psalm\Context $if_body_context ?? null;
         public bool $strict_types ?? false;
+        /**
+        * @var ?string
+        * @generated
+        */
         public ?string $calling_function_id ?? null;
         /**
         * @var ?string
@@ -1430,6 +1527,10 @@ namespace Psalm {
         */
         public function insideUse(): bool;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DocComment {
         public const array PSALM_ANNOTATIONS ?? [];
         /**
@@ -1439,6 +1540,10 @@ namespace Psalm {
         */
         public static function parseSuppressList(string $suppress_entry): array<int, string>;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ErrorBaseline {
         /**
         * @param array<string, array<string, array>> $existingIssues
@@ -1449,6 +1554,7 @@ namespace Psalm {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class FileManipulation {
@@ -1473,6 +1579,10 @@ namespace Psalm {
         */
         public function transform(string $existing_contents): string;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface FileSource {
         /**
         * @psalm-mutation-free
@@ -1500,6 +1610,10 @@ namespace Psalm {
         */
         public function getAliases(): \Psalm\Aliases;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class IssueBuffer {
         /**
         * This will add an issue to be emitted if it's not suppressed and return if it has been added
@@ -1521,7 +1635,7 @@ namespace Psalm {
         * @psalm-external-mutation-free
         * @generated
         */
-        public static function addUnusedSuppression(string $file_path, int $offset, string $issue_type): void;
+        public static function addUnusedSuppression(string $file_path, int $offset, string $issue_type, bool $taint_analysis): void;
         /**
         * This will return false if an issue is ready to be added for emission. Reasons for not returning false include:
         *
@@ -1642,6 +1756,10 @@ namespace Psalm {
         */
         public static function bubbleUp(\Psalm\Issue\CodeIssue $e): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface NodeTypeProvider {
         /**
         * @param \PhpParser\NodeAbstract $node
@@ -1654,6 +1772,10 @@ namespace Psalm {
         */
         public function getType(\PhpParser\NodeAbstract $node): ?\Psalm\Type\Union;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PluginFileExtensionsSocket implements \Psalm\Plugin\FileExtensionsInterface {
         /**
         * @param string $fileExtension e.g. `'html'`
@@ -1683,6 +1805,10 @@ namespace Psalm {
         */
         public function getAdditionalFileExtensions(): array<int, string>;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PluginRegistrationSocket implements \Psalm\Plugin\RegistrationInterface {
         /**
         * @psalm-external-mutation-free
@@ -1693,6 +1819,7 @@ namespace Psalm {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     abstract class Report {
@@ -1735,6 +1862,10 @@ namespace Psalm {
         */
         public static function getMapping(): array;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface StatementsSource extends \Psalm\FileSource {
         public function getNamespace(): ?string;
         /**
@@ -1785,10 +1916,22 @@ namespace Psalm {
         public function removeSuppressedIssues(array<int, string> $new_issues): void;
         public function getNodeTypeProvider(): \Psalm\NodeTypeProvider;
         /**
+        * Records that the current function-like performs a mutation of the given
+        *
+        * level, for purity inference.
+        * 
+        * When $storage is the storage of an unannotated callee of the project, the
+        * callee's level is only known once it has been analysed itself, so the
+        * dependency is recorded and resolved after analysis instead (see
+        * \Psalm\Internal\Codebase\MutationLevelResolver).
+        *
         * @param Mutations::LEVEL_ $ * $mutation_level
+        * @param bool $callee_internal_mutations_ok whether mutations of the callee's own instance
+        *  *            (e.g. of a freshly constructed object) are fine for the caller
+        * @param ?string $callee_id the graph node of the callee, when it can't be derived from its storage (closures)
         * @generated
         */
-        public function signalMutationOnlyInferred(int $mutation_level, ?\Psalm\Storage\FunctionLikeStorage $storage = null): void;
+        public function signalMutationOnlyInferred(int $mutation_level, ?\Psalm\Storage\FunctionLikeStorage $storage = null, bool $callee_internal_mutations_ok = false, ?string $callee_id = null): void;
         /**
         * @param Mutations::LEVEL_ $ * $mutation_level
         * @param string $msg
@@ -1796,8 +1939,12 @@ namespace Psalm {
         * @param ?Mutations::LEVEL_ $ * $inferred_mutation_level
         * @generated
         */
-        public function signalMutation(int $mutation_level, \Psalm\Context $context, string $msg, string $class, \PhpParser\Node $node, ?int $inferred_mutation_level = null, bool $overrideMsg = false, ?\Psalm\Storage\FunctionLikeStorage $storage = null): void;
+        public function signalMutation(int $mutation_level, \Psalm\Context $context, string $msg, string $class, \PhpParser\Node $node, ?int $inferred_mutation_level = null, bool $overrideMsg = false, ?\Psalm\Storage\FunctionLikeStorage $storage = null, bool $callee_internal_mutations_ok = false, ?string $callee_id = null): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     abstract class \Psalm\Type {
         /**
         * Parses a string type representation
@@ -1858,7 +2005,6 @@ namespace Psalm {
         */
         public static function getNumericString(): \Psalm\Type\Union;
         /**
-        * @psalm-suppress PossiblyUnusedMethod
         * @return \Psalm\Type\Atomic
         * @psalm-pure
         * @generated
@@ -2034,6 +2180,7 @@ namespace Psalm {
 namespace Psalm\CodeLocation {
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class DocblockTypeLocation extends \Psalm\CodeLocation {
@@ -2045,6 +2192,7 @@ namespace Psalm\CodeLocation {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class ParseErrorLocation extends \Psalm\CodeLocation {
@@ -2056,6 +2204,7 @@ namespace Psalm\CodeLocation {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class Raw extends \Psalm\CodeLocation {
@@ -2069,6 +2218,7 @@ namespace Psalm\CodeLocation {
 namespace Psalm\Config {
     /**
     * @psalm-consistent-constructor
+    * @api
     * @generated
     */
     class FileFilter {
@@ -2201,36 +2351,100 @@ namespace Psalm\Config {
     }
 }
 namespace Psalm\Exception {
+    /**
+    * @api
+    * @generated
+    */
     final class CircularReferenceException extends \Exception {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class CodeException extends \Exception {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ComplicatedExpressionException extends \Exception {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ConfigCreationException extends \Exception {
     }
+    /**
+    * @api
+    * @generated
+    */
     class ConfigException extends \Exception {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ConfigNotFoundException extends \Psalm\Exception\ConfigException {
     }
+    /**
+    * @api
+    * @generated
+    */
     class DocblockParseException extends \Exception {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class FileIncludeException extends \Exception {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class IncorrectDocblockException extends \Psalm\Exception\DocblockParseException {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidClasslikeOverrideException extends \Exception {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidMethodOverrideException extends \Exception {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class RefactorException extends \Exception {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ScopeAnalysisException extends \Exception {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TypeParseTreeException extends \Exception {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnanalyzedFileException extends \Exception {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnpopulatedClasslikeException extends \LogicException {
         /**
         * @psalm-mutation-free
@@ -2238,8 +2452,16 @@ namespace Psalm\Exception {
         */
         public function __construct(string $fq_classlike_name): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnpreparedAnalysisException extends \Exception {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnresolvableConstantException extends \Exception {
         public string $class_name;
         public string $const_name;
@@ -2249,6 +2471,10 @@ namespace Psalm\Exception {
         */
         public function __construct(string $class_name, string $const_name): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnsupportedIssueToFixException extends \Exception {
     }
 }
@@ -2336,18 +2562,34 @@ namespace Psalm\Internal\Type {
     }
 }
 namespace Psalm\Issue {
+    /**
+    * @api
+    * @generated
+    */
     final class AbstractInstantiation extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 7;
         public const int SHORTCODE ?? 72;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class AbstractMethodCall extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 223;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class AmbiguousConstantInheritance extends \Psalm\Issue\ClassConstantIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 305;
     }
+    /**
+    * @api
+    * @generated
+    */
     abstract class ArgumentIssue extends \Psalm\Issue\CodeIssue {
         public ?string $function_id ?? null;
         /**
@@ -2356,22 +2598,42 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, ?string $function_id = null): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ArgumentTypeCoercion extends \Psalm\Issue\ArgumentIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 193;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class AssignmentToVoid extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 7;
         public const int SHORTCODE ?? 121;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class CheckType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 8;
         public const int SHORTCODE ?? 311;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class CircularReference extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 7;
         public const int SHORTCODE ?? 131;
     }
+    /**
+    * @api
+    * @generated
+    */
     abstract class ClassConstantIssue extends \Psalm\Issue\CodeIssue {
         public string $const_id;
         /**
@@ -2380,6 +2642,10 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, string $const_id): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     abstract class ClassIssue extends \Psalm\Issue\CodeIssue {
         public string $fq_classlike_name;
         /**
@@ -2388,10 +2654,18 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, string $fq_classlike_name): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ClassMustBeFinal extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 361;
     }
+    /**
+    * @api
+    * @generated
+    */
     abstract class CodeIssue {
         /**
         * @var int
@@ -2437,66 +2711,130 @@ namespace Psalm\Issue {
         */
         public static function getIssueType(): string;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ComplexFunction extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 259;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ComplexMethod extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 260;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ConfigIssue extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 271;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ConflictingReferenceConstraint extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 7;
         public const int SHORTCODE ?? 85;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ConstantDeclarationInTrait extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 315;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ConstructorSignatureMismatch extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 5;
         public const int SHORTCODE ?? 231;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ContinueOutsideLoop extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 7;
         public const int SHORTCODE ?? 43;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DeprecatedClass extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 98;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DeprecatedConstant extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 170;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DeprecatedFunction extends \Psalm\Issue\FunctionIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 201;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DeprecatedInterface extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 152;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DeprecatedMethod extends \Psalm\Issue\MethodIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 1;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DeprecatedProperty extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 99;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DeprecatedTrait extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 171;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DirectConstructorCall extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 318;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DocblockTypeContradiction extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 155;
@@ -2506,62 +2844,122 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, ?string $dupe_key): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DuplicateArrayKey extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 151;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DuplicateClass extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 71;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DuplicateConstant extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 302;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DuplicateEnumCase extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 277;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DuplicateEnumCaseValue extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 279;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DuplicateFunction extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 180;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DuplicateMethod extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 178;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DuplicateParam extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 65;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DuplicateProperty extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 325;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class EmptyArrayAccess extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 100;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ExtensionRequirementViolation extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 239;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class FalsableReturnStatement extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 5;
         public const int SHORTCODE ?? 137;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class FalseOperand extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 161;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ForbiddenCode extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 2;
     }
+    /**
+    * @api
+    * @generated
+    */
     abstract class FunctionIssue extends \Psalm\Issue\CodeIssue {
         public string $function_id;
         /**
@@ -2570,86 +2968,178 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, string $function_id): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class IfThisIsMismatch extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 300;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ImmutableDependency extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 366;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ImplementationRequirementViolation extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 240;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ImplementedParamTypeMismatch extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 199;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ImplementedReturnTypeMismatch extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 123;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ImplicitToStringCast extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 60;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ImpureByReferenceAssignment extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 220;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ImpureFunctionCall extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 202;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ImpureGlobalVariable extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 362;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ImpureMethodCall extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 203;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ImpurePropertyAssignment extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 204;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ImpurePropertyFetch extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 234;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ImpureStaticProperty extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 221;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ImpureStaticVariable extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 210;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ImpureVariable extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 235;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InaccessibleClassConstant extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 53;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InaccessibleMethod extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 3;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InaccessibleProperty extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 54;
     }
+    /**
+    * @api
+    * @generated
+    */
+    final class IncompatibleTypeParameters extends \Psalm\Issue\CodeIssue {
+        public const int ERROR_LEVEL ?? 1;
+        public const int SHORTCODE ?? 368;
+    }
+    /**
+    * @api
+    * @generated
+    */
     final class InheritorViolation extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 283;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InterfaceInstantiation extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 158;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InternalClass extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 174;
@@ -2660,218 +3150,434 @@ namespace Psalm\Issue {
         */
         public static function listToPhrase(array $words): string;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InternalMethod extends \Psalm\Issue\MethodIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 175;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InternalProperty extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 176;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidArgument extends \Psalm\Issue\ArgumentIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 4;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidArrayAccess extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 5;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidArrayAssignment extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 6;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidArrayOffset extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 115;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidAttribute extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 242;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidCast extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 103;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidCatch extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 132;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidClass extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 7;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidClassConstantType extends \Psalm\Issue\ClassConstantIssue {
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 309;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidClone extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 69;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidConstantAssignmentValue extends \Psalm\Issue\ClassConstantIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 304;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidDocblock extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 8;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidDocblockParamName extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 187;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidEnumBackingType extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 276;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidEnumCaseValue extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 278;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidEnumMethod extends \Psalm\Issue\MethodIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 314;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidExtendClass extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 232;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidFalsableReturnType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 143;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidFunctionCall extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 64;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidGlobal extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 46;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidInterfaceImplementation extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 317;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidIterator extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 9;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidLiteralArgument extends \Psalm\Issue\ArgumentIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 237;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidMethodCall extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 91;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidNamedArgument extends \Psalm\Issue\ArgumentIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 238;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidNullableReturnType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 5;
         public const int SHORTCODE ?? 144;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidOperand extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 58;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidOverride extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 7;
         public const int SHORTCODE ?? 357;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidParamDefault extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 62;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidParent extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 214;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidPassByReference extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 102;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidPropertyAssignment extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 10;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidPropertyAssignmentValue extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 145;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidPropertyFetch extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 29;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidReturnStatement extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 128;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidReturnType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 11;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidScalarArgument extends \Psalm\Issue\ArgumentIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 12;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidScope extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 13;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidStaticInvocation extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 14;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidStringClass extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 160;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidTemplateParam extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 183;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidThrow extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 133;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidToString extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 55;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidTraversableImplementation extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? 7;
         public const int SHORTCODE ?? 266;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class InvalidTypeImport extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 7;
         public const int SHORTCODE ?? 233;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class LessSpecificClassConstantType extends \Psalm\Issue\ClassConstantIssue {
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 307;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class LessSpecificImplementedReturnType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 5;
         public const int SHORTCODE ?? 166;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class LessSpecificReturnStatement extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 129;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class LessSpecificReturnType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 88;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class LiteralKeyUnshapedArray extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 360;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class LoopInvalidation extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 130;
     }
+    /**
+    * @api
+    * @generated
+    */
     abstract class MethodIssue extends \Psalm\Issue\CodeIssue {
         public string $method_id;
         /**
@@ -2880,45 +3586,89 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, string $method_id): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MethodSignatureMismatch extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 7;
         public const int SHORTCODE ?? 42;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MethodSignatureMustOmitReturnType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 168;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MethodSignatureMustProvideReturnType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 282;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MismatchingDocblockParamType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 141;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MismatchingDocblockPropertyType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 264;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MismatchingDocblockReturnType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 142;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingAbstractPureAnnotation extends \Psalm\Issue\CodeIssue {
         public const int SHORTCODE ?? 364;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingClassConstType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 359;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingClosureParamType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 153;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingClosureReturnType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 68;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingConstructor extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 73;
@@ -2928,47 +3678,99 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, ?string $dupe_key): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingDependency extends \Psalm\Issue\ClassIssue {
         public const int SHORTCODE ?? 157;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingDocblockType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 110;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingFile extends \Psalm\Issue\CodeIssue {
         public const int SHORTCODE ?? 107;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingImmutableAnnotation extends \Psalm\Issue\CodeIssue {
         public const int SHORTCODE ?? 213;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingInterfaceImmutableAnnotation extends \Psalm\Issue\CodeIssue {
         public const int SHORTCODE ?? 365;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingOverrideAttribute extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 358;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingParamType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 154;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingPropertyType extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 45;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingPureAnnotation extends \Psalm\Issue\CodeIssue {
         public const int SHORTCODE ?? 363;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingReturnType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 50;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingTemplateParam extends \Psalm\Issue\CodeIssue {
         public const int SHORTCODE ?? 182;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MissingThrowsDocblock extends \Psalm\Issue\ClassIssue {
         public const int SHORTCODE ?? 169;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedArgument extends \Psalm\Issue\ArgumentIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
@@ -2979,6 +3781,10 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, ?string $function_id = null, ?\Psalm\CodeLocation $origin_location = null): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedArgumentTypeCoercion extends \Psalm\Issue\ArgumentIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
@@ -2989,47 +3795,80 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, ?string $function_id = null, ?\Psalm\CodeLocation $origin_location = null): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedArrayAccess extends \Psalm\Issue\CodeIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 51;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedArrayAssignment extends \Psalm\Issue\CodeIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 117;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedArrayOffset extends \Psalm\Issue\CodeIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 31;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedArrayTypeCoercion extends \Psalm\Issue\CodeIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 195;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedAssignment extends \Psalm\Issue\CodeIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 32;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedClone extends \Psalm\Issue\CodeIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 227;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedFunctionCall extends \Psalm\Issue\CodeIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 185;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface MixedIssue {
         public function getMixedOriginMessage(): string;
         public function getOriginalLocation(): ?\Psalm\CodeLocation;
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     trait MixedIssueTrait {
@@ -3046,26 +3885,46 @@ namespace Psalm\Issue {
         public function getMixedOriginMessage(): string;
         public function getOriginalLocation(): ?\Psalm\CodeLocation;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedMethodCall extends \Psalm\Issue\CodeIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 15;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedOperand extends \Psalm\Issue\CodeIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 59;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedPropertyAssignment extends \Psalm\Issue\CodeIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 33;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedPropertyFetch extends \Psalm\Issue\CodeIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 34;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedPropertyTypeCoercion extends \Psalm\Issue\PropertyIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
@@ -3076,69 +3935,133 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, string $property_id, ?\Psalm\CodeLocation $origin_location = null): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedReturnStatement extends \Psalm\Issue\CodeIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 138;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedReturnTypeCoercion extends \Psalm\Issue\CodeIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 197;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MixedStringOffsetAssignment extends \Psalm\Issue\CodeIssue implements \Psalm\Issue\MixedIssue {
         use \Psalm\Issue\MixedIssueTrait;
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 35;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MoreSpecificImplementedParamType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 5;
         public const int SHORTCODE ?? 140;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MoreSpecificReturnType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 70;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MutableDependency extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 222;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class NamedArgumentNotAllowed extends \Psalm\Issue\ArgumentIssue {
         public const int ERROR_LEVEL ?? 7;
         public const int SHORTCODE ?? 268;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class NoEnumProperties extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 301;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class NoInterfaceProperties extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 28;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class NonInvariantDocblockPropertyType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 267;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class NonInvariantPropertyType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 265;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class NonStaticSelfCall extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 63;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class NonVariableReferenceReturn extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 7;
         public const int SHORTCODE ?? 323;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class NoValue extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 179;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class NullableReturnStatement extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 5;
         public const int SHORTCODE ?? 139;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class NullArgument extends \Psalm\Issue\ArgumentIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 57;
@@ -3148,24 +4071,41 @@ namespace Psalm\Issue {
     *
     * reference)
     *
+    * @api
     * @generated
     */
     final class NullArrayAccess extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 52;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class NullArrayOffset extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 124;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class NullFunctionCall extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 93;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class NullIterator extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 96;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class NullOperand extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 61;
@@ -3175,6 +4115,7 @@ namespace Psalm\Issue {
     *
     * reference)
     *
+    * @api
     * @generated
     */
     final class NullPropertyAssignment extends \Psalm\Issue\CodeIssue {
@@ -3186,130 +4127,255 @@ namespace Psalm\Issue {
     *
     * reference)
     *
+    * @api
     * @generated
     */
     final class NullPropertyFetch extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 27;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class NullReference extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 16;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class OverriddenFinalConstant extends \Psalm\Issue\ClassConstantIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 310;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class OverriddenInterfaceConstant extends \Psalm\Issue\ClassConstantIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 306;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class OverriddenMethodAccess extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 7;
         public const int SHORTCODE ?? 66;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class OverriddenPropertyAccess extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 159;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ParadoxicalCondition extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 89;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ParamNameMismatch extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 7;
         public const int SHORTCODE ?? 230;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ParentNotFound extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 17;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ParseError extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 173;
     }
+    /**
+    * @api
+    * @generated
+    */
     abstract class PluginIssue extends \Psalm\Issue\CodeIssue {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossibleRawObjectIteration extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 208;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyFalseArgument extends \Psalm\Issue\ArgumentIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 104;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyFalseIterator extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 164;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyFalseOperand extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 162;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyFalsePropertyAssignmentValue extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 146;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyFalseReference extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 105;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyInvalidArgument extends \Psalm\Issue\ArgumentIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 92;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyInvalidArrayAccess extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 109;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyInvalidArrayAssignment extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 118;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyInvalidArrayOffset extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 116;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyInvalidCast extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 190;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyInvalidClone extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 226;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyInvalidDocblockTag extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 270;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyInvalidFunctionCall extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 136;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyInvalidIterator extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 165;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyInvalidMethodCall extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 113;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyInvalidOperand extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 163;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyInvalidPropertyAssignment extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 112;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyInvalidPropertyAssignmentValue extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 147;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyInvalidPropertyFetch extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 114;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyNullArgument extends \Psalm\Issue\ArgumentIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 78;
@@ -3319,28 +4385,49 @@ namespace Psalm\Issue {
     *
     * reference)
     *
+    * @api
     * @generated
     */
     final class PossiblyNullArrayAccess extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 79;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyNullArrayAssignment extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 120;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyNullArrayOffset extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 125;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyNullFunctionCall extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 94;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyNullIterator extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 97;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyNullOperand extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 80;
@@ -3350,12 +4437,17 @@ namespace Psalm\Issue {
     *
     * reference)
     *
+    * @api
     * @generated
     */
     final class PossiblyNullPropertyAssignment extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 81;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyNullPropertyAssignmentValue extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 148;
@@ -3365,40 +4457,73 @@ namespace Psalm\Issue {
     *
     * reference)
     *
+    * @api
     * @generated
     */
     final class PossiblyNullPropertyFetch extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 82;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyNullReference extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 83;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyUndefinedArrayOffset extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 167;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyUndefinedGlobalVariable extends \Psalm\Issue\VariableIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 126;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyUndefinedIntArrayOffset extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 215;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyUndefinedMethod extends \Psalm\Issue\MethodIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 108;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyUndefinedStringArrayOffset extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 216;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyUndefinedVariable extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 18;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyUnusedMethod extends \Psalm\Issue\MethodIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 87;
@@ -3408,10 +4533,18 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, string $method_id): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyUnusedParam extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 134;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyUnusedProperty extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 149;
@@ -3421,14 +4554,26 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, string $property_id): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PossiblyUnusedReturnValue extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 273;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PrivateFinalMethod extends \Psalm\Issue\MethodIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 320;
     }
+    /**
+    * @api
+    * @generated
+    */
     abstract class PropertyIssue extends \Psalm\Issue\CodeIssue {
         public string $property_id;
         /**
@@ -3437,6 +4582,10 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, string $property_id): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PropertyNotSetInConstructor extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 74;
@@ -3446,26 +4595,50 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, string $property_id): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PropertyTypeCoercion extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 198;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PsalmInternalError extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 177;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class RawObjectIteration extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 111;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class RedundantCast extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 262;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class RedundantCastGivenDocblockType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 263;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class RedundantCondition extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 122;
@@ -3475,6 +4648,10 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, ?string $dupe_key): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class RedundantConditionGivenDocblockType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 156;
@@ -3484,42 +4661,82 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, ?string $dupe_key): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class RedundantFlag extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 322;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class RedundantFunctionCall extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 280;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class RedundantFunctionCallGivenDocblockType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 281;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class RedundantIdentityWithTrue extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 228;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class RedundantPropertyInitializationCheck extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 261;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ReferenceConstraintViolation extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 86;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ReferenceReusedFromConfusingScope extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 308;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ReservedWord extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? 7;
         public const int SHORTCODE ?? 95;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class RiskyCast extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 3;
         public const int SHORTCODE ?? 313;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class RiskyTruthyFalsyComparison extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 356;
@@ -3529,37 +4746,81 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, ?string $dupe_key): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class StringIncrement extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 211;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedCallable extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 243;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedCookie extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 257;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedCustom extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 249;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedEval extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 252;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedExtract extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 327;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedFile extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 255;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedHeader extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 256;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedHtml extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 245;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedInclude extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 251;
     }
+    /**
+    * @api
+    * @generated
+    */
     abstract class TaintedInput extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         /**
@@ -3581,59 +4842,134 @@ namespace Psalm\Issue {
         */
         public function getJourneyMessage(): string;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedLdap extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 254;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedLlmPrompt extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 367;
     }
+    /**
+    * @api
+    * @generated
+    */
+    final class TaintedNosql extends \Psalm\Issue\TaintedInput {
+        public const int SHORTCODE ?? 369;
+    }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedShell extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 246;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedSleep extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 324;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedSql extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 244;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedSSRF extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 253;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedSystemSecret extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 248;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedTextWithQuotes extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 274;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedUnserialize extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 250;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedUserSecret extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 247;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TaintedXpath extends \Psalm\Issue\TaintedInput {
         public const int SHORTCODE ?? 328;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TooFewArguments extends \Psalm\Issue\ArgumentIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 25;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TooManyArguments extends \Psalm\Issue\ArgumentIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 26;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TooManyTemplateParams extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 184;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class Trace extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 1;
         public const int SHORTCODE ?? 224;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TraitMethodSignatureMismatch extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 192;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TypeDoesNotContainNull extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 90;
@@ -3643,6 +4979,10 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, ?string $dupe_key): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TypeDoesNotContainType extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 56;
@@ -3652,134 +4992,266 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, ?string $dupe_key): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UncaughtThrowInGlobalScope extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 191;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedAttributeClass extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 241;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedClass extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 19;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedConstant extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 20;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedDocblockClass extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 200;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedFunction extends \Psalm\Issue\FunctionIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 21;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedGlobalVariable extends \Psalm\Issue\VariableIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 127;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedInterface extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 189;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedInterfaceMethod extends \Psalm\Issue\MethodIssue {
         public const int ERROR_LEVEL ?? 5;
         public const int SHORTCODE ?? 181;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedMagicMethod extends \Psalm\Issue\MethodIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 219;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedMagicPropertyAssignment extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 217;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedMagicPropertyFetch extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? 4;
         public const int SHORTCODE ?? 218;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedMethod extends \Psalm\Issue\MethodIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 22;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedPropertyAssignment extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 38;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedPropertyFetch extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 39;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedThisPropertyAssignment extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? 5;
         public const int SHORTCODE ?? 40;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedThisPropertyFetch extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? 6;
         public const int SHORTCODE ?? 41;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedTrace extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 225;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedTrait extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 23;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UndefinedVariable extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 24;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnevaluatedCode extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 84;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnhandledMatchCondition extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 7;
         public const int SHORTCODE ?? 236;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnimplementedAbstractMethod extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 101;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnimplementedInterfaceMethod extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 44;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UninitializedProperty extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? 7;
         public const int SHORTCODE ?? 186;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnnecessaryVarAnnotation extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 212;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnrecognizedExpression extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 48;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnrecognizedStatement extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 49;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnresolvableConstant extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 303;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnresolvableInclude extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 106;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnsafeGenericInstantiation extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 269;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnsafeInstantiation extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 229;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnsupportedPropertyReferenceUsage extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 321;
@@ -3789,42 +5261,82 @@ namespace Psalm\Issue {
         */
         public function __construct(\Psalm\CodeLocation $code_location): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnsupportedReferenceUsage extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? 2;
         public const int SHORTCODE ?? 312;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnusedBaselineEntry extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 316;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnusedClass extends \Psalm\Issue\ClassIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 75;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnusedClosureParam extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 188;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnusedConstructor extends \Psalm\Issue\MethodIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 258;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnusedDocblockParam extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 319;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnusedForeachValue extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 275;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnusedFunctionCall extends \Psalm\Issue\FunctionIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 206;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnusedIssueHandlerSuppression extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 326;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnusedMethod extends \Psalm\Issue\MethodIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 76;
@@ -3834,14 +5346,26 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, string $method_id): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnusedMethodCall extends \Psalm\Issue\MethodIssue {
         public const int ERROR_LEVEL ?? -1;
         public const int SHORTCODE ?? 209;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnusedParam extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 135;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnusedProperty extends \Psalm\Issue\PropertyIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 150;
@@ -3851,18 +5375,34 @@ namespace Psalm\Issue {
         */
         public function __construct(string $message, \Psalm\CodeLocation $code_location, string $property_id): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnusedPsalmSuppress extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 207;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnusedReturnValue extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 272;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class UnusedVariable extends \Psalm\Issue\CodeIssue {
         public const int ERROR_LEVEL ?? -2;
         public const int SHORTCODE ?? 77;
     }
+    /**
+    * @api
+    * @generated
+    */
     abstract class VariableIssue extends \Psalm\Issue\CodeIssue {
         public string $var_name;
         /**
@@ -3873,46 +5413,104 @@ namespace Psalm\Issue {
     }
 }
 namespace Psalm\Node {
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualArg extends \PhpParser\Node\Arg implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualArrayItem extends \PhpParser\Node\ArrayItem implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualAttribute extends \PhpParser\Node\Attribute implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualAttributeGroup extends \PhpParser\Node\AttributeGroup implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualClosureUse extends \PhpParser\Node\ClosureUse implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualConst extends \PhpParser\Node\Const_ implements \Psalm\Node\VirtualNode {
     }
     /**
     * Represents a non-namespaced name. Namespaced names are represented using Name nodes.
     *
+    * @api
     * @generated
     */
     final class VirtualIdentifier extends \PhpParser\Node\Identifier implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualMatchArm extends \PhpParser\Node\MatchArm implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualName extends \PhpParser\Node\Name implements \Psalm\Node\VirtualNode {
     }
     /**
     * Describe a Node that is not part of the original AST and was created by Psalm for analysis
     *
+    * @api
     * @generated
     */
     interface VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualNullableType extends \PhpParser\Node\NullableType implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualParam extends \PhpParser\Node\Param implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualPropertyItem extends \PhpParser\Node\PropertyItem implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualStaticVar extends \PhpParser\Node\StaticVar implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualUnionType extends \PhpParser\Node\UnionType implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualUseItem extends \PhpParser\Node\UseItem implements \Psalm\Node\VirtualNode {
     }
     /**
@@ -3923,34 +5521,83 @@ namespace Psalm\Node {
     * Examples: Names in property declarations are formatted as variables. Names in static property
     * lookups are also formatted as variables.
     *
+    * @api
     * @generated
     */
     final class VirtualVarLikeIdentifier extends \PhpParser\Node\VarLikeIdentifier implements \Psalm\Node\VirtualNode {
     }
 }
 namespace Psalm\Node\Expr {
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualArray extends \PhpParser\Node\Expr\Array_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualArrayDimFetch extends \PhpParser\Node\Expr\ArrayDimFetch implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualArrowFunction extends \PhpParser\Node\Expr\ArrowFunction implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualAssign extends \PhpParser\Node\Expr\Assign implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualAssignRef extends \PhpParser\Node\Expr\AssignRef implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualBitwiseNot extends \PhpParser\Node\Expr\BitwiseNot implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualBooleanNot extends \PhpParser\Node\Expr\BooleanNot implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualClassConstFetch extends \PhpParser\Node\Expr\ClassConstFetch implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualClone extends \PhpParser\Node\Expr\Clone_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualClosure extends \PhpParser\Node\Expr\Closure implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualConstFetch extends \PhpParser\Node\Expr\ConstFetch implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualEmpty extends \PhpParser\Node\Expr\Empty_ implements \Psalm\Node\VirtualNode {
     }
     /**
@@ -3959,305 +5606,836 @@ namespace Psalm\Node\Expr {
     * An error node may be placed at a position where an expression is required, but an error occurred.
     * Error nodes will not be present if the parser is run in throwOnError mode (the default).
     *
+    * @api
     * @generated
     */
     final class VirtualError extends \PhpParser\Node\Expr\Error implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualErrorSuppress extends \PhpParser\Node\Expr\ErrorSuppress implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualEval extends \PhpParser\Node\Expr\Eval_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualExit extends \PhpParser\Node\Expr\Exit_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualFuncCall extends \PhpParser\Node\Expr\FuncCall implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualInclude extends \PhpParser\Node\Expr\Include_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualInstanceof extends \PhpParser\Node\Expr\Instanceof_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualIsset extends \PhpParser\Node\Expr\Isset_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualList extends \PhpParser\Node\Expr\List_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualMatch extends \PhpParser\Node\Expr\Match_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualMethodCall extends \PhpParser\Node\Expr\MethodCall implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualNew extends \PhpParser\Node\Expr\New_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualNullsafeMethodCall extends \PhpParser\Node\Expr\NullsafeMethodCall implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualNullsafePropertyFetch extends \PhpParser\Node\Expr\NullsafePropertyFetch implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualPostDec extends \PhpParser\Node\Expr\PostDec implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualPostInc extends \PhpParser\Node\Expr\PostInc implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualPreDec extends \PhpParser\Node\Expr\PreDec implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualPreInc extends \PhpParser\Node\Expr\PreInc implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualPrint extends \PhpParser\Node\Expr\Print_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualPropertyFetch extends \PhpParser\Node\Expr\PropertyFetch implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualShellExec extends \PhpParser\Node\Expr\ShellExec implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualStaticCall extends \PhpParser\Node\Expr\StaticCall implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualStaticPropertyFetch extends \PhpParser\Node\Expr\StaticPropertyFetch implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualTernary extends \PhpParser\Node\Expr\Ternary implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualThrow extends \PhpParser\Node\Expr\Throw_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualUnaryMinus extends \PhpParser\Node\Expr\UnaryMinus implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualUnaryPlus extends \PhpParser\Node\Expr\UnaryPlus implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualVariable extends \PhpParser\Node\Expr\Variable implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualYield extends \PhpParser\Node\Expr\Yield_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualYieldFrom extends \PhpParser\Node\Expr\YieldFrom implements \Psalm\Node\VirtualNode {
     }
 }
 namespace Psalm\Node\Expr\AssignOp {
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualBitwiseAnd extends \PhpParser\Node\Expr\AssignOp\BitwiseAnd implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualBitwiseOr extends \PhpParser\Node\Expr\AssignOp\BitwiseOr implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualBitwiseXor extends \PhpParser\Node\Expr\AssignOp\BitwiseXor implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualCoalesce extends \PhpParser\Node\Expr\AssignOp\Coalesce implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualConcat extends \PhpParser\Node\Expr\AssignOp\Concat implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualDiv extends \PhpParser\Node\Expr\AssignOp\Div implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualMinus extends \PhpParser\Node\Expr\AssignOp\Minus implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualMod extends \PhpParser\Node\Expr\AssignOp\Mod implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualMul extends \PhpParser\Node\Expr\AssignOp\Mul implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualPlus extends \PhpParser\Node\Expr\AssignOp\Plus implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualPow extends \PhpParser\Node\Expr\AssignOp\Pow implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualShiftLeft extends \PhpParser\Node\Expr\AssignOp\ShiftLeft implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualShiftRight extends \PhpParser\Node\Expr\AssignOp\ShiftRight implements \Psalm\Node\VirtualNode {
     }
 }
 namespace Psalm\Node\Expr\BinaryOp {
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualBitwiseAnd extends \PhpParser\Node\Expr\BinaryOp\BitwiseAnd implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualBitwiseOr extends \PhpParser\Node\Expr\BinaryOp\BitwiseOr implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualBitwiseXor extends \PhpParser\Node\Expr\BinaryOp\BitwiseXor implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualBooleanAnd extends \PhpParser\Node\Expr\BinaryOp\BooleanAnd implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualBooleanOr extends \PhpParser\Node\Expr\BinaryOp\BooleanOr implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualCoalesce extends \PhpParser\Node\Expr\BinaryOp\Coalesce implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualConcat extends \PhpParser\Node\Expr\BinaryOp\Concat implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualDiv extends \PhpParser\Node\Expr\BinaryOp\Div implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualEqual extends \PhpParser\Node\Expr\BinaryOp\Equal implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualGreater extends \PhpParser\Node\Expr\BinaryOp\Greater implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualGreaterOrEqual extends \PhpParser\Node\Expr\BinaryOp\GreaterOrEqual implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualIdentical extends \PhpParser\Node\Expr\BinaryOp\Identical implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualLogicalAnd extends \PhpParser\Node\Expr\BinaryOp\LogicalAnd implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualLogicalOr extends \PhpParser\Node\Expr\BinaryOp\LogicalOr implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualLogicalXor extends \PhpParser\Node\Expr\BinaryOp\LogicalXor implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualMinus extends \PhpParser\Node\Expr\BinaryOp\Minus implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualMod extends \PhpParser\Node\Expr\BinaryOp\Mod implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualMul extends \PhpParser\Node\Expr\BinaryOp\Mul implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualNotEqual extends \PhpParser\Node\Expr\BinaryOp\NotEqual implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualNotIdentical extends \PhpParser\Node\Expr\BinaryOp\NotIdentical implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualPlus extends \PhpParser\Node\Expr\BinaryOp\Plus implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualPow extends \PhpParser\Node\Expr\BinaryOp\Pow implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualShiftLeft extends \PhpParser\Node\Expr\BinaryOp\ShiftLeft implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualShiftRight extends \PhpParser\Node\Expr\BinaryOp\ShiftRight implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualSmaller extends \PhpParser\Node\Expr\BinaryOp\Smaller implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualSmallerOrEqual extends \PhpParser\Node\Expr\BinaryOp\SmallerOrEqual implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualSpaceship extends \PhpParser\Node\Expr\BinaryOp\Spaceship implements \Psalm\Node\VirtualNode {
     }
 }
 namespace Psalm\Node\Expr\Cast {
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualArray extends \PhpParser\Node\Expr\Cast\Array_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualBool extends \PhpParser\Node\Expr\Cast\Bool_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualDouble extends float implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualInt extends \PhpParser\Node\Expr\Cast\Int_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualObject extends \PhpParser\Node\Expr\Cast\Object_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualString extends \PhpParser\Node\Expr\Cast\String_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualUnset extends \PhpParser\Node\Expr\Cast\Unset_ implements \Psalm\Node\VirtualNode {
     }
 }
 namespace Psalm\Node\Name {
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualFullyQualified extends \PhpParser\Node\Name\FullyQualified implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualRelative extends \PhpParser\Node\Name\Relative implements \Psalm\Node\VirtualNode {
     }
 }
 namespace Psalm\Node\Scalar {
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualFloat extends \PhpParser\Node\Scalar\Float_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualInt extends \PhpParser\Node\Scalar\Int_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualInterpolatedString extends \PhpParser\Node\Scalar\InterpolatedString implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualInterpolatedStringPart extends \PhpParser\Node\InterpolatedStringPart implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualString extends \PhpParser\Node\Scalar\String_ implements \Psalm\Node\VirtualNode {
     }
 }
 namespace Psalm\Node\Scalar\MagicConst {
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualClass extends \PhpParser\Node\Scalar\MagicConst\Class_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualDir extends \PhpParser\Node\Scalar\MagicConst\Dir implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualFile extends \PhpParser\Node\Scalar\MagicConst\File implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualFunction extends \PhpParser\Node\Scalar\MagicConst\Function_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualLine extends \PhpParser\Node\Scalar\MagicConst\Line implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualMethod extends \PhpParser\Node\Scalar\MagicConst\Method implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualNamespace extends \PhpParser\Node\Scalar\MagicConst\Namespace_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualTrait extends \PhpParser\Node\Scalar\MagicConst\Trait_ implements \Psalm\Node\VirtualNode {
     }
 }
 namespace Psalm\Node\Stmt {
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualBreak extends \PhpParser\Node\Stmt\Break_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualCase extends \PhpParser\Node\Stmt\Case_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualCatch extends \PhpParser\Node\Stmt\Catch_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualClass extends \PhpParser\Node\Stmt\Class_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualClassConst extends \PhpParser\Node\Stmt\ClassConst implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualClassMethod extends \PhpParser\Node\Stmt\ClassMethod implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualConst extends \PhpParser\Node\Stmt\Const_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualContinue extends \PhpParser\Node\Stmt\Continue_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualDeclare extends \PhpParser\Node\Stmt\Declare_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualDeclareItem extends \PhpParser\Node\DeclareItem implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualDo extends \PhpParser\Node\Stmt\Do_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualEcho extends \PhpParser\Node\Stmt\Echo_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualElse extends \PhpParser\Node\Stmt\Else_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualElseIf extends \PhpParser\Node\Stmt\ElseIf_ implements \Psalm\Node\VirtualNode {
     }
     /**
     * Represents statements of type "expr;"
     *
+    * @api
     * @generated
     */
     final class VirtualExpression extends \PhpParser\Node\Stmt\Expression implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualFinally extends \PhpParser\Node\Stmt\Finally_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualFor extends \PhpParser\Node\Stmt\For_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualForeach extends \PhpParser\Node\Stmt\Foreach_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualFunction extends \PhpParser\Node\Stmt\Function_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualGlobal extends \PhpParser\Node\Stmt\Global_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualGoto extends \PhpParser\Node\Stmt\Goto_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualGroupUse extends \PhpParser\Node\Stmt\GroupUse implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualHaltCompiler extends \PhpParser\Node\Stmt\HaltCompiler implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualIf extends \PhpParser\Node\Stmt\If_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualInlineHTML extends \PhpParser\Node\Stmt\InlineHTML implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualInterface extends \PhpParser\Node\Stmt\Interface_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualLabel extends \PhpParser\Node\Stmt\Label implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualNamespace extends \PhpParser\Node\Stmt\Namespace_ implements \Psalm\Node\VirtualNode {
     }
     /**
     * Nop/empty statement (;).
     *
+    * @api
     * @generated
     */
     final class VirtualNop extends \PhpParser\Node\Stmt\Nop implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualProperty extends \PhpParser\Node\Stmt\Property implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualReturn extends \PhpParser\Node\Stmt\Return_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualStatic extends \PhpParser\Node\Stmt\Static_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualSwitch extends \PhpParser\Node\Stmt\Switch_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualTrait extends \PhpParser\Node\Stmt\Trait_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualTraitUse extends \PhpParser\Node\Stmt\TraitUse implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualTryCatch extends \PhpParser\Node\Stmt\TryCatch implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualUnset extends \PhpParser\Node\Stmt\Unset_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualUse extends \PhpParser\Node\Stmt\Use_ implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualWhile extends \PhpParser\Node\Stmt\While_ implements \Psalm\Node\VirtualNode {
     }
 }
 namespace Psalm\Node\Stmt\TraitUseAdaptation {
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualAlias extends \PhpParser\Node\Stmt\TraitUseAdaptation\Alias implements \Psalm\Node\VirtualNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VirtualPrecedence extends \PhpParser\Node\Stmt\TraitUseAdaptation\Precedence implements \Psalm\Node\VirtualNode {
     }
 }
 namespace Psalm\Plugin {
+    /**
+    * @api
+    * @generated
+    */
     final class ArgTypeInferer {
         public function infer(\PhpParser\Node\Arg $arg): null|\Psalm\Type\Union;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DynamicFunctionStorage {
         /**
         * Required param list for a function.
@@ -4305,6 +6483,7 @@ namespace Psalm\Plugin {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class DynamicTemplateProvider {
@@ -4316,6 +6495,10 @@ namespace Psalm\Plugin {
         */
         public function createTemplate(string $param_name, ?\Psalm\Type\Union $as = null): \Psalm\Type\Atomic\TTemplateParam;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface FileExtensionsInterface {
         /**
         * @param string $fileExtension e.g. `'html'`
@@ -4330,14 +6513,30 @@ namespace Psalm\Plugin {
         */
         public function addFileTypeAnalyzer(string $fileExtension, string $className): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface PluginEntryPointInterface extends \Psalm\Plugin\PluginInterface {
         public function __invoke(\Psalm\PluginRegistrationSocket $registration, ?\SimpleXMLElement $config = null): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface PluginFileExtensionsInterface extends \Psalm\Plugin\PluginInterface {
         public function processFileExtensions(\Psalm\Plugin\FileExtensionsInterface $fileExtensions, ?\SimpleXMLElement $config = null): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface PluginInterface {
     }
+    /**
+    * @api
+    * @generated
+    */
     interface RegistrationInterface {
         public function addStubFile(string $file_name): void;
         /**
@@ -4346,6 +6545,10 @@ namespace Psalm\Plugin {
         */
         public function registerHooksFromClass(string $handler): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class Shepherd implements \Psalm\Plugin\EventHandler\AfterAnalysisInterface {
         /**
         * Called after analysis is complete
@@ -4356,6 +6559,10 @@ namespace Psalm\Plugin {
     }
 }
 namespace Psalm\Plugin\EventHandler {
+    /**
+    * @api
+    * @generated
+    */
     interface AddTaintsInterface {
         /**
         * Called to see what taints should be added
@@ -4364,6 +6571,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function addTaints(\Psalm\Plugin\EventHandler\Event\AddRemoveTaintsEvent $event): int;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface AfterAnalysisInterface {
         /**
         * Called after analysis is complete
@@ -4372,6 +6583,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function afterAnalysis(\Psalm\Plugin\EventHandler\Event\AfterAnalysisEvent $event): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface AfterClassLikeAnalysisInterface {
         /**
         * Called after a statement has been checked
@@ -4382,9 +6597,17 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function afterStatementAnalysis(\Psalm\Plugin\EventHandler\Event\AfterClassLikeAnalysisEvent $event): null|false;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface AfterClassLikeExistenceCheckInterface {
         public static function afterClassLikeExistenceCheck(\Psalm\Plugin\EventHandler\Event\AfterClassLikeExistenceCheckEvent $event): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface AfterClassLikeVisitInterface {
         /**
         * @return void
@@ -4393,6 +6616,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function afterClassLikeVisit(\Psalm\Plugin\EventHandler\Event\AfterClassLikeVisitEvent $event): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface AfterCodebasePopulatedInterface {
         /**
         * Called after codebase has been populated
@@ -4403,9 +6630,17 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function afterCodebasePopulated(\Psalm\Plugin\EventHandler\Event\AfterCodebasePopulatedEvent $event): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface AfterEveryFunctionCallAnalysisInterface {
         public static function afterEveryFunctionCallAnalysis(\Psalm\Plugin\EventHandler\Event\AfterEveryFunctionCallAnalysisEvent $event): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface AfterExpressionAnalysisInterface {
         /**
         * Called after an expression has been checked
@@ -4415,6 +6650,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function afterExpressionAnalysis(\Psalm\Plugin\EventHandler\Event\AfterExpressionAnalysisEvent $event): ?bool;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface AfterFileAnalysisInterface {
         /**
         * Called after a file has been checked
@@ -4423,9 +6662,17 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function afterAnalyzeFile(\Psalm\Plugin\EventHandler\Event\AfterFileAnalysisEvent $event): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface AfterFunctionCallAnalysisInterface {
         public static function afterFunctionCallAnalysis(\Psalm\Plugin\EventHandler\Event\AfterFunctionCallAnalysisEvent $event): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface AfterFunctionLikeAnalysisInterface {
         /**
         * Called after a statement has been checked
@@ -4435,9 +6682,17 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function afterStatementAnalysis(\Psalm\Plugin\EventHandler\Event\AfterFunctionLikeAnalysisEvent $event): ?bool;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface AfterMethodCallAnalysisInterface {
         public static function afterMethodCallAnalysis(\Psalm\Plugin\EventHandler\Event\AfterMethodCallAnalysisEvent $event): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface AfterStatementAnalysisInterface {
         /**
         * Called after a statement has been checked
@@ -4447,6 +6702,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function afterStatementAnalysis(\Psalm\Plugin\EventHandler\Event\AfterStatementAnalysisEvent $event): ?bool;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface BeforeAddIssueInterface {
         /**
         * Called before adding a code issue.
@@ -4463,6 +6722,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function beforeAddIssue(\Psalm\Plugin\EventHandler\Event\BeforeAddIssueEvent $event): ?bool;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface BeforeExpressionAnalysisInterface {
         /**
         * Called before an expression is checked
@@ -4471,6 +6734,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function beforeExpressionAnalysis(\Psalm\Plugin\EventHandler\Event\BeforeExpressionAnalysisEvent $event): ?bool;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface BeforeFileAnalysisInterface {
         /**
         * Called before a file has been checked
@@ -4479,6 +6746,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function beforeAnalyzeFile(\Psalm\Plugin\EventHandler\Event\BeforeFileAnalysisEvent $event): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface BeforeStatementAnalysisInterface {
         /**
         * Called before a statement has been checked
@@ -4490,6 +6761,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function beforeStatementAnalysis(\Psalm\Plugin\EventHandler\Event\BeforeStatementAnalysisEvent $event): ?bool;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface ClassFilePathProviderInterface {
         /**
         * @param string $class
@@ -4497,6 +6772,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function getClassFilePath(string $class): ?string;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface DynamicFunctionStorageProviderInterface {
         /**
         * @return array<mixed>
@@ -4505,6 +6784,10 @@ namespace Psalm\Plugin\EventHandler {
         public static function getFunctionIds(): array<mixed>;
         public static function getFunctionStorage(\Psalm\Plugin\EventHandler\Event\DynamicFunctionStorageProviderEvent $event): ?\Psalm\Plugin\DynamicFunctionStorage;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface FunctionExistenceProviderInterface {
         /**
         * @return array<mixed>
@@ -4521,6 +6804,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function doesFunctionExist(\Psalm\Plugin\EventHandler\Event\FunctionExistenceProviderEvent $event): ?bool;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface FunctionParamsProviderInterface {
         /**
         * @return array<mixed>
@@ -4533,6 +6820,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function getFunctionParams(\Psalm\Plugin\EventHandler\Event\FunctionParamsProviderEvent $event): ?array<int, \Psalm\Storage\FunctionLikeParameter>;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface FunctionReturnTypeProviderInterface {
         /**
         * @return array<mixed>
@@ -4549,6 +6840,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function getFunctionReturnType(\Psalm\Plugin\EventHandler\Event\FunctionReturnTypeProviderEvent $event): ?\Psalm\Type\Union;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface MethodExistenceProviderInterface {
         /**
         * @return array<string>
@@ -4565,6 +6860,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function doesMethodExist(\Psalm\Plugin\EventHandler\Event\MethodExistenceProviderEvent $event): ?bool;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface MethodParamsProviderInterface {
         /**
         * @return array<string>
@@ -4577,6 +6876,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function getMethodParams(\Psalm\Plugin\EventHandler\Event\MethodParamsProviderEvent $event): ?array<int, \Psalm\Storage\FunctionLikeParameter>;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface MethodReturnTypeProviderInterface {
         /**
         * @return array<string>
@@ -4593,6 +6896,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function getMethodReturnType(\Psalm\Plugin\EventHandler\Event\MethodReturnTypeProviderEvent $event): ?\Psalm\Type\Union;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface MethodVisibilityProviderInterface {
         /**
         * @return array<string>
@@ -4601,6 +6908,10 @@ namespace Psalm\Plugin\EventHandler {
         public static function getClassLikeNames(): array<string>;
         public static function isMethodVisible(\Psalm\Plugin\EventHandler\Event\MethodVisibilityProviderEvent $event): ?bool;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface PropertyExistenceProviderInterface {
         /**
         * @return array<string>
@@ -4617,6 +6928,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function doesPropertyExist(\Psalm\Plugin\EventHandler\Event\PropertyExistenceProviderEvent $event): ?bool;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface PropertyTypeProviderInterface {
         /**
         * @return array<string>
@@ -4625,6 +6940,10 @@ namespace Psalm\Plugin\EventHandler {
         public static function getClassLikeNames(): array<string>;
         public static function getPropertyType(\Psalm\Plugin\EventHandler\Event\PropertyTypeProviderEvent $event): ?\Psalm\Type\Union;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface PropertyVisibilityProviderInterface {
         /**
         * @return array<string>
@@ -4633,6 +6952,10 @@ namespace Psalm\Plugin\EventHandler {
         public static function getClassLikeNames(): array<string>;
         public static function isPropertyVisible(\Psalm\Plugin\EventHandler\Event\PropertyVisibilityProviderEvent $event): ?bool;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface RemoveTaintsInterface {
         /**
         * Called to see what taints should be removed
@@ -4641,6 +6964,10 @@ namespace Psalm\Plugin\EventHandler {
         */
         public static function removeTaints(\Psalm\Plugin\EventHandler\Event\AddRemoveTaintsEvent $event): int;
     }
+    /**
+    * @api
+    * @generated
+    */
     interface StringInterpreterInterface {
         /**
         * Called after a statement has been checked
@@ -4653,6 +6980,7 @@ namespace Psalm\Plugin\EventHandler {
 namespace Psalm\Plugin\EventHandler\Event {
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class AddRemoveTaintsEvent {
@@ -4663,6 +6991,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class AfterAnalysisEvent {
@@ -4672,6 +7001,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class AfterClassLikeAnalysisEvent {
@@ -4710,6 +7040,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class AfterClassLikeExistenceCheckEvent {
@@ -4748,6 +7079,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class AfterClassLikeVisitEvent {
@@ -4786,6 +7118,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class AfterCodebasePopulatedEvent {
@@ -4793,6 +7126,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class AfterEveryFunctionCallAnalysisEvent {
@@ -4804,6 +7138,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class AfterExpressionAnalysisEvent {
@@ -4842,6 +7177,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class AfterFileAnalysisEvent {
@@ -4857,6 +7193,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class AfterFunctionCallAnalysisEvent {
@@ -4906,6 +7243,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class AfterFunctionLikeAnalysisEvent {
@@ -4954,6 +7292,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class AfterMethodCallAnalysisEvent {
@@ -5018,6 +7357,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class AfterStatementAnalysisEvent {
@@ -5056,6 +7396,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class BeforeAddIssueEvent {
@@ -5065,6 +7406,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class BeforeExpressionAnalysisEvent {
@@ -5103,6 +7445,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class BeforeFileAnalysisEvent {
@@ -5118,6 +7461,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class BeforeStatementAnalysisEvent {
@@ -5159,6 +7503,10 @@ namespace Psalm\Plugin\EventHandler\Event {
         */
         public function setFileReplacements(array<int, \Psalm\FileManipulation> $file_replacements): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class DynamicFunctionStorageProviderEvent {
         public function getArgTypeInferer(): \Psalm\Plugin\ArgTypeInferer;
         public function getTemplateProvider(): \Psalm\Plugin\DynamicTemplateProvider;
@@ -5176,6 +7524,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class FunctionExistenceProviderEvent {
@@ -5184,6 +7533,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class FunctionParamsProviderEvent {
@@ -5199,6 +7549,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class FunctionReturnTypeProviderEvent {
@@ -5220,6 +7571,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class MethodExistenceProviderEvent {
@@ -5230,6 +7582,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class MethodParamsProviderEvent {
@@ -5246,6 +7599,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class MethodReturnTypeProviderEvent {
@@ -5279,6 +7633,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class MethodVisibilityProviderEvent {
@@ -5290,6 +7645,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class PropertyExistenceProviderEvent {
@@ -5302,6 +7658,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class PropertyTypeProviderEvent {
@@ -5313,6 +7670,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class PropertyVisibilityProviderEvent {
@@ -5325,6 +7683,7 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class StringInterpreterEvent {
@@ -5333,6 +7692,10 @@ namespace Psalm\Plugin\EventHandler\Event {
     }
 }
 namespace Psalm\Progress {
+    /**
+    * @api
+    * @generated
+    */
     final class DebugProgress extends \Psalm\Progress\Progress {
         public function setErrorReporting(): void;
         public function debug(string $message): void;
@@ -5354,15 +7717,32 @@ namespace Psalm\Progress {
         public function finish(): void;
         public function alterFileDone(string $file_name): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     class DefaultProgress extends \Psalm\Progress\LongProgress {
         public function taskDone(int $level): void;
         public function finish(): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     class LongProgress extends \Psalm\Progress\Progress {
         public const int NUMBER_OF_COLUMNS ?? 60;
         protected ?int $number_of_tasks ?? null;
         protected int $progress ?? 0;
         protected bool $fixed_size ?? false;
+        /**
+        * True when the current phase runs an unknown number of tasks (e.g. taint
+        *
+        * graph resolution, which loops to a fixed point). A percentage bar is
+        * meaningless in that case, so we only emit a tick per task.
+        *
+        * @generated
+        */
+        protected bool $indeterminate ?? false;
         protected ?\Psalm\Progress\Phase $prevPhase ?? null;
         protected float $started ?? 0.0;
         protected bool $print_errors ?? true;
@@ -5400,6 +7780,7 @@ namespace Psalm\Progress {
     * when implementing progress make sure to always include a fallback based on the name of the case.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     enum Phase {
@@ -5411,6 +7792,10 @@ namespace Psalm\Progress {
         case PRELOADING;
         case MERGING_THREAD_RESULTS;
     }
+    /**
+    * @api
+    * @generated
+    */
     abstract class Progress {
         public function setErrorReporting(): void;
         public abstract function debug(string $message): void;
@@ -5423,6 +7808,10 @@ namespace Psalm\Progress {
         public function warning(string $message): void;
         protected static final function doesTerminalSupportUtf8(): bool;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class VoidProgress extends \Psalm\Progress\Progress {
         /**
         * @psalm-mutation-free
@@ -5464,6 +7853,7 @@ namespace Psalm\Progress {
 namespace Psalm\Report {
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class ByIssueLevelAndTypeReport extends \Psalm\Report {
@@ -5471,6 +7861,7 @@ namespace Psalm\Report {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class CheckstyleReport extends \Psalm\Report {
@@ -5489,6 +7880,7 @@ namespace Psalm\Report {
     * @see https://github.com/codeclimate/platform/blob/master/spec/analyzers/SPEC.md#data-types
     * @author Olivier Doucet <webmaster@ajeux.com>
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class CodeClimateReport extends \Psalm\Report {
@@ -5500,6 +7892,7 @@ namespace Psalm\Report {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class CompactReport extends \Psalm\Report {
@@ -5511,6 +7904,7 @@ namespace Psalm\Report {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class ConsoleReport extends \Psalm\Report {
@@ -5518,6 +7912,7 @@ namespace Psalm\Report {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class CountReport extends \Psalm\Report {
@@ -5529,6 +7924,7 @@ namespace Psalm\Report {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class EmacsReport extends \Psalm\Report {
@@ -5540,6 +7936,7 @@ namespace Psalm\Report {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class GithubActionsReport extends \Psalm\Report {
@@ -5551,6 +7948,7 @@ namespace Psalm\Report {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class JsonReport extends \Psalm\Report {
@@ -5562,6 +7960,7 @@ namespace Psalm\Report {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class JsonSummaryReport extends \Psalm\Report {
@@ -5578,6 +7977,7 @@ namespace Psalm\Report {
     * 
     * with a few modifications
     *
+    * @api
     * @generated
     */
     final class JunitReport extends \Psalm\Report {
@@ -5585,6 +7985,7 @@ namespace Psalm\Report {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class PhpStormReport extends \Psalm\Report {
@@ -5596,6 +7997,7 @@ namespace Psalm\Report {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class PylintReport extends \Psalm\Report {
@@ -5605,6 +8007,10 @@ namespace Psalm\Report {
         */
         public function create(): string;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ReportOptions {
         public bool $use_color ?? true;
         public bool $show_snippet ?? true;
@@ -5624,6 +8030,7 @@ namespace Psalm\Report {
     *
     * https://docs.oasis-open.org/sarif/sarif/v2.1.0/cs01/sarif-v2.1.0-cs01.html
     *
+    * @api
     * @generated
     */
     final class SarifReport extends \Psalm\Report {
@@ -5637,6 +8044,7 @@ namespace Psalm\Report {
     * https://docs.sonarqube.org/latest/analysis/generic-issue/
     *
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class SonarqubeReport extends \Psalm\Report {
@@ -5646,6 +8054,10 @@ namespace Psalm\Report {
         */
         public function create(): string;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class TableReport extends \Psalm\Report {
         /**
         * @psalm-suppress PossiblyNullReference
@@ -5655,6 +8067,7 @@ namespace Psalm\Report {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class TextReport extends \Psalm\Report {
@@ -5664,6 +8077,10 @@ namespace Psalm\Report {
         */
         public function create(): string;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class XmlReport extends \Psalm\Report {
         public function create(): string;
     }
@@ -5671,6 +8088,7 @@ namespace Psalm\Report {
 namespace Psalm\SourceControl {
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     abstract class SourceControlInfo {
@@ -5687,6 +8105,7 @@ namespace Psalm\SourceControl\Git {
     *
     * @author Kitamura Satoshi <with.no.parachute@gmail.com>
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class CommitInfo {
@@ -5817,6 +8236,7 @@ namespace Psalm\SourceControl\Git {
     *
     * @author Kitamura Satoshi <with.no.parachute@gmail.com>
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class GitInfo extends \Psalm\SourceControl\SourceControlInfo {
@@ -5864,6 +8284,7 @@ namespace Psalm\SourceControl\Git {
     *
     * @author Kitamura Satoshi <with.no.parachute@gmail.com>
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class RemoteInfo {
@@ -5910,6 +8331,7 @@ namespace Psalm\Storage {
     type CustomMetadataTrait_MetadataEntry = \Psalm\Type\Atomic\Scalar|array<int, \Psalm\Type\Atomic\Scalar>|array<int, array<int, \Psalm\Type\Atomic\Scalar>>|array<int, array<int, array<int, \Psalm\Type\Atomic\Scalar>>>|array<int, array<int, array<int, array<int, \Psalm\Type\Atomic\Scalar>>>>|array<int, array<int, array<int, array<int, array<int, \Psalm\Type\Atomic\Scalar>>>>>;
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     abstract class Assertion implements \Stringable {
@@ -5980,8 +8402,8 @@ namespace Psalm\Storage {
         public function __construct(string $fq_class_name, array<int, \Psalm\Storage\AttributeArg> $args, \Psalm\CodeLocation $location, \Psalm\CodeLocation $name_location): void;
     }
     /**
-    * @psalm-suppress PossiblyUnusedProperty
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class ClassConstantStorage {
@@ -6005,6 +8427,10 @@ namespace Psalm\Storage {
         */
         public function getHoverMarkdown(string $const): string;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class ClassLikeStorage implements \Psalm\Storage\HasAttributesInterface {
         use \Psalm\Storage\CustomMetadataTrait, \Psalm\Storage\UnserializeMemoryUsageSuppressionTrait;
         /**
@@ -6347,6 +8773,7 @@ namespace Psalm\Storage {
         public function getSuppressedIssuesForTemplateExtendParams(): array<int, string>;
     }
     /**
+    * @api
     * @generated
     */
     trait CustomMetadataTrait {
@@ -6358,6 +8785,7 @@ namespace Psalm\Storage {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class EnumCaseStorage {
@@ -6365,6 +8793,10 @@ namespace Psalm\Storage {
         public \Psalm\CodeLocation $stmt_location;
         public bool $deprecated ?? false;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class FileStorage {
         use \Psalm\Storage\CustomMetadataTrait, \Psalm\Storage\UnserializeMemoryUsageSuppressionTrait;
         /**
@@ -6449,6 +8881,10 @@ namespace Psalm\Storage {
         */
         public function __construct(string $file_path): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class FunctionLikeParameter implements \Psalm\Storage\HasAttributesInterface, \Psalm\Type\TypeNode {
         use \Psalm\Storage\CustomMetadataTrait, \Psalm\Storage\UnserializeMemoryUsageSuppressionTrait;
         public bool $has_docblock_type ?? false;
@@ -6496,6 +8932,10 @@ namespace Psalm\Storage {
         */
         public function getAttributeStorages(): array<int, \Psalm\Storage\AttributeStorage>;
     }
+    /**
+    * @api
+    * @generated
+    */
     abstract class FunctionLikeStorage implements \Psalm\Storage\HasAttributesInterface, \Stringable {
         use \Psalm\Storage\CustomMetadataTrait, \Psalm\Storage\UnserializeMemoryUsageSuppressionTrait;
         public ?\Psalm\CodeLocation $location ?? null;
@@ -6678,6 +9118,10 @@ namespace Psalm\Storage {
         */
         public function __toString(): string;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class FunctionStorage extends \Psalm\Storage\FunctionLikeStorage {
         use \Psalm\Storage\UnserializeMemoryUsageSuppressionTrait;
         /**
@@ -6686,22 +9130,30 @@ namespace Psalm\Storage {
         */
         public array<string, bool> $byref_uses ?? [];
     }
+    /**
+    * @api
+    * @generated
+    */
     interface HasAttributesInterface {
         /**
         * Returns a list of AttributeStorages with the same order they appear in the AttributeGroups they come from.
         *
         * @return array<int, AttributeStorage>
-        * @psalm-suppress PossiblyUnusedMethod part of public API
         * @generated
         */
         public function getAttributeStorages(): array<int, \Psalm\Storage\AttributeStorage>;
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     trait ImmutableNonCloneableTrait {
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MethodStorage extends \Psalm\Storage\FunctionLikeStorage {
         use \Psalm\Storage\UnserializeMemoryUsageSuppressionTrait;
         public bool $is_static ?? false;
@@ -6741,6 +9193,7 @@ namespace Psalm\Storage {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class Mutations {
@@ -6800,6 +9253,7 @@ namespace Psalm\Storage {
     }
     /**
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class Possibilities {
@@ -6817,6 +9271,7 @@ namespace Psalm\Storage {
     * Storage for property hooks ('get' & 'set') introduced in PHP 8.4
     *
     * @psalm-external-mutation-free
+    * @api
     * @generated
     */
     final class PropertyHookStorage {
@@ -6831,6 +9286,10 @@ namespace Psalm\Storage {
         */
         public function __construct(bool $is_get, bool $is_final, bool $by_ref, ?\Psalm\CodeLocation $location): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class PropertyStorage implements \Psalm\Storage\HasAttributesInterface {
         use \Psalm\Storage\CustomMetadataTrait, \Psalm\Storage\UnserializeMemoryUsageSuppressionTrait;
         public ?bool $is_static ?? null;
@@ -6895,6 +9354,7 @@ namespace Psalm\Storage {
     *
     * @see https://github.com/php/php-src/issues/10126
     * @psalm-immutable
+    * @api
     * @generated
     */
     trait UnserializeMemoryUsageSuppressionTrait {
@@ -6908,6 +9368,7 @@ namespace Psalm\Storage {
 namespace Psalm\Storage\Assertion {
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class Any extends \Psalm\Storage\Assertion {
@@ -6926,6 +9387,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class ArrayKeyDoesNotExist extends \Psalm\Storage\Assertion {
@@ -6953,6 +9415,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class ArrayKeyExists extends \Psalm\Storage\Assertion {
@@ -6975,6 +9438,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class DoesNotHaveAtLeastCount extends \Psalm\Storage\Assertion {
@@ -6996,6 +9460,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class DoesNotHaveExactCount extends \Psalm\Storage\Assertion {
@@ -7017,6 +9482,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class DoesNotHaveMethod extends \Psalm\Storage\Assertion {
@@ -7034,6 +9500,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class Empty_ extends \Psalm\Storage\Assertion {
@@ -7061,6 +9528,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class Falsy extends \Psalm\Storage\Assertion {
@@ -7088,6 +9556,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class HasArrayKey extends \Psalm\Storage\Assertion {
@@ -7108,6 +9577,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class HasAtLeastCount extends \Psalm\Storage\Assertion {
@@ -7124,6 +9594,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class HasExactCount extends \Psalm\Storage\Assertion {
@@ -7145,6 +9616,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class HasIntOrStringArrayAccess extends \Psalm\Storage\Assertion {
@@ -7167,6 +9639,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class HasMethod extends \Psalm\Storage\Assertion {
@@ -7179,6 +9652,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class HasStringArrayAccess extends \Psalm\Storage\Assertion {
@@ -7201,6 +9675,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class InArray extends \Psalm\Storage\Assertion {
@@ -7213,6 +9688,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsAClass extends \Psalm\Storage\Assertion {
@@ -7231,6 +9707,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsClassEqual extends \Psalm\Storage\Assertion {
@@ -7248,6 +9725,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsClassNotEqual extends \Psalm\Storage\Assertion {
@@ -7265,6 +9743,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsCountable extends \Psalm\Storage\Assertion {
@@ -7287,6 +9766,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsEqualIsset extends \Psalm\Storage\Assertion {
@@ -7314,6 +9794,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsGreaterThan extends \Psalm\Storage\Assertion {
@@ -7331,6 +9812,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsGreaterThanOrEqualTo extends \Psalm\Storage\Assertion {
@@ -7349,6 +9831,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsIdentical extends \Psalm\Storage\Assertion {
@@ -7373,6 +9856,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsIsset extends \Psalm\Storage\Assertion {
@@ -7395,6 +9879,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsLessThan extends \Psalm\Storage\Assertion {
@@ -7408,6 +9893,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsLessThanOrEqualTo extends \Psalm\Storage\Assertion {
@@ -7430,6 +9916,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsLooselyEqual extends \Psalm\Storage\Assertion {
@@ -7454,6 +9941,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsNotAClass extends \Psalm\Storage\Assertion {
@@ -7477,6 +9965,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsNotCountable extends \Psalm\Storage\Assertion {
@@ -7506,6 +9995,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsNotIdentical extends \Psalm\Storage\Assertion {
@@ -7535,6 +10025,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsNotIsset extends \Psalm\Storage\Assertion {
@@ -7562,6 +10053,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsNotLooselyEqual extends \Psalm\Storage\Assertion {
@@ -7591,6 +10083,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsNotType extends \Psalm\Storage\Assertion {
@@ -7615,6 +10108,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class IsType extends \Psalm\Storage\Assertion {
@@ -7634,6 +10128,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class NestedAssertions extends \Psalm\Storage\Assertion {
@@ -7654,6 +10149,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class NonEmpty extends \Psalm\Storage\Assertion {
@@ -7676,6 +10172,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class NonEmptyCountable extends \Psalm\Storage\Assertion {
@@ -7689,6 +10186,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class NotInArray extends \Psalm\Storage\Assertion {
@@ -7706,6 +10204,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class NotNestedAssertions extends \Psalm\Storage\Assertion {
@@ -7731,6 +10230,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class NotNonEmptyCountable extends \Psalm\Storage\Assertion {
@@ -7758,6 +10258,7 @@ namespace Psalm\Storage\Assertion {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class Truthy extends \Psalm\Storage\Assertion {
@@ -7782,6 +10283,7 @@ namespace Psalm\Storage\Assertion {
 namespace Psalm\Type {
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     abstract class Atomic implements \Psalm\Type\TypeNode, \Stringable {
@@ -7935,6 +10437,10 @@ namespace Psalm\Type {
         */
         public function isFalsy(): bool;
     }
+    /**
+    * @api
+    * @generated
+    */
     abstract class MutableTypeVisitor {
         public const int STOP_TRAVERSAL ?? 1;
         public const int DONT_TRAVERSE_CHILDREN ?? 2;
@@ -7962,6 +10468,10 @@ namespace Psalm\Type {
         */
         public function traverseArray<T extends array<\Psalm\Type\TypeNode>>(T &$nodes): void;
     }
+    /**
+    * @api
+    * @generated
+    */
     final class MutableUnion implements \Psalm\Type\TypeNode {
         use \Psalm\Type\UnionTrait;
         /**
@@ -8047,7 +10557,6 @@ namespace Psalm\Type {
         *
         * since it's the bottom type, it's combined into everything else and lost
         *
-        * @psalm-suppress PossiblyUnusedProperty used in setTypes and addType
         * @generated
         */
         public bool $explicit_never ?? false;
@@ -8076,10 +10585,6 @@ namespace Psalm\Type {
         public bool $allow_mutations ?? true;
         public bool $has_mutations ?? true;
         public bool $different ?? false;
-        /**
-        * @psalm-suppress PossiblyUnusedProperty
-        * @generated
-        */
         public bool $propagate_parent_nodes ?? false;
         /**
         * @psalm-external-mutation-free
@@ -8124,6 +10629,10 @@ namespace Psalm\Type {
         */
         public static function visitMutable(\Psalm\Type\MutableTypeVisitor $visitor, mixed &$node, bool $cloned): bool;
     }
+    /**
+    * @api
+    * @generated
+    */
     class Reconciler {
         public const int RECONCILIATION_OK ?? 0;
         public const int RECONCILIATION_REDUNDANT ?? 1;
@@ -8152,6 +10661,7 @@ namespace Psalm\Type {
     * and extracting it with ->value every time is a pain.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TaintKind {
@@ -8172,6 +10682,7 @@ namespace Psalm\Type {
         public const mixed INPUT_SLEEP;
         public const mixed INPUT_EXTRACT;
         public const mixed INPUT_LLM_PROMPT;
+        public const mixed INPUT_NOSQL;
         public const mixed USER_SECRET;
         public const mixed SYSTEM_SECRET;
         /**
@@ -8187,8 +10698,16 @@ namespace Psalm\Type {
         public const mixed ALL_INPUT;
         public const array TAINT_NAMES ?? [];
     }
+    /**
+    * @api
+    * @generated
+    */
     interface TypeNode {
     }
+    /**
+    * @api
+    * @generated
+    */
     abstract class TypeVisitor {
         public const int STOP_TRAVERSAL ?? 1;
         public const int DONT_TRAVERSE_CHILDREN ?? 2;
@@ -8235,6 +10754,7 @@ namespace Psalm\Type {
     };
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class Union implements \Psalm\Type\TypeNode {
@@ -8403,6 +10923,7 @@ namespace Psalm\Type {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     trait UnionTrait {
@@ -8836,10 +11357,9 @@ namespace Psalm\Type {
         /**
         * @param array<string> $suppressed_issues
         * @param array<string, bool> $phantom_classes
-        * @param ?string $calling_method_id
         * @generated
         */
-        public function check(\Psalm\StatementsSource $source, \Psalm\CodeLocation $code_location, array<string> $suppressed_issues, array<string, bool> $phantom_classes = [], bool $inferred = true, bool $inherited = false, bool $prevent_template_covariance = false, ?string $calling_method_id = null): bool;
+        public function check(\Psalm\StatementsSource $source, \Psalm\CodeLocation $code_location, array<string> $suppressed_issues, array<string, bool> $phantom_classes = [], bool $inferred = true, bool $inherited = false, bool $prevent_template_covariance = false, ?\Psalm\Context $context = null): bool;
         /**
         * @param array<string, mixed> $phantom_classes
         * @generated
@@ -8938,6 +11458,7 @@ namespace Psalm\Type\Atomic {
     type TPropertiesOfTokenName = string;
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     trait CallableTrait {
@@ -8987,6 +11508,7 @@ namespace Psalm\Type\Atomic {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     interface DependentType {
@@ -9001,6 +11523,7 @@ namespace Psalm\Type\Atomic {
     /**
     * @template TTypeParams of array<Union>
     * @psalm-immutable
+    * @api
     * @generated
     */
     trait GenericTrait<TTypeParams extends array<\Psalm\Type\Union>> {
@@ -9019,6 +11542,7 @@ namespace Psalm\Type\Atomic {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     trait HasIntersectionTrait {
@@ -9047,6 +11571,7 @@ namespace Psalm\Type\Atomic {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     abstract class Scalar extends \Psalm\Type\Atomic {
@@ -9061,6 +11586,7 @@ namespace Psalm\Type\Atomic {
     * Denotes an anonymous class (i.e. `new class{}`) with potential methods
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TAnonymousClassInstance extends \Psalm\Type\Atomic\TNamedObject {
@@ -9082,6 +11608,7 @@ namespace Psalm\Type\Atomic {
     * Denotes a simple array of the form `array<TKey, TValue>`. It expects an array with two elements, both union types.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     class TArray extends \Psalm\Type\Atomic {
@@ -9123,6 +11650,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `array-key` type, used for something that could be the offset of an `array`.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     class TArrayKey extends \Psalm\Type\Atomic\Scalar {
@@ -9153,6 +11681,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `bool` type where the exact value is unknown.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     class TBool extends \Psalm\Type\Atomic\Scalar {
@@ -9172,19 +11701,24 @@ namespace Psalm\Type\Atomic {
     * Denotes the `callable` type. Can result from an `is_callable` check.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TCallable extends \Psalm\Type\Atomic {
         use \Psalm\Storage\UnserializeMemoryUsageSuppressionTrait, \Psalm\Type\Atomic\CallableTrait;
         public string $value ?? 'callable';
+        public ?string $callable_id ?? null;
         /**
         * Constructs a new instance of a generic type
         *
         * @param array<int, \Psalm\Storage\FunctionLikeParameter> $params
         * @param Mutations::LEVEL_ $ * $allowed_mutations
+        * @param ?string $callable_id The id of the underlying function/method, when
+        *  *                                            known. Metadata only - it does not affect the structural
+        *  *                                            type - and is used to re-dispatch taint sinks/sources on invocation.
         * @generated
         */
-        public function __construct(array<int, \Psalm\Storage\FunctionLikeParameter> $params = null, ?\Psalm\Type\Union $return_type = null, int $allowed_mutations = \Psalm\Storage\Mutations::LEVEL_EXTERNAL, bool $from_docblock = false): void;
+        public function __construct(array<int, \Psalm\Storage\FunctionLikeParameter> $params = null, ?\Psalm\Type\Union $return_type = null, int $allowed_mutations = \Psalm\Storage\Mutations::LEVEL_EXTERNAL, bool $from_docblock = false, ?string $callable_id = null): void;
         /**
         * @param array<mixed, string> $aliased_classes
         * @psalm-pure
@@ -9204,6 +11738,7 @@ namespace Psalm\Type\Atomic {
     * Denotes an object that is also `callable` (i.e. it has `__invoke` defined).
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TCallableObject extends \Psalm\Type\Atomic\TObject {
@@ -9238,6 +11773,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `callable-string` type, used to represent an unknown string that is also `callable`.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TCallableString extends \Psalm\Type\Atomic\TNonFalsyString {
@@ -9268,6 +11804,7 @@ namespace Psalm\Type\Atomic {
     * Denotes a class constant whose value might not yet be known.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TClassConstant extends \Psalm\Type\Atomic {
@@ -9301,6 +11838,7 @@ namespace Psalm\Type\Atomic {
     * The parent type from which the classes descend may or may not be specified in the constructor.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     class TClassString extends \Psalm\Type\Atomic\TString {
@@ -9346,6 +11884,7 @@ namespace Psalm\Type\Atomic {
     * is a function of its string key value
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TClassStringMap extends \Psalm\Type\Atomic {
@@ -9394,6 +11933,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `resource` type that has been closed (e.g. a file handle through `fclose()`).
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TClosedResource extends \Psalm\Type\Atomic {
@@ -9419,11 +11959,13 @@ namespace Psalm\Type\Atomic {
     * Represents a closure where we know the return type and params
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TClosure extends \Psalm\Type\Atomic\TNamedObject {
         use \Psalm\Type\Atomic\CallableTrait;
         public array<string, bool> $byref_uses ?? [];
+        public ?string $callable_id ?? null;
         /**
         * @psalm-pure
         * @generated
@@ -9434,9 +11976,13 @@ namespace Psalm\Type\Atomic {
         * @param array<string, bool> $byref_uses
         * @param Mutations::LEVEL_ $ * $allowed_mutations
         * @param array<string, TNamedObject|TTemplateParam|TIterable|TObjectWithProperties|TCallableObject> $extra_types
+        * @param ?string $callable_id The id of the underlying function/method, when
+        *  *                                            known (e.g. for a first-class callable `foo(...)`). Metadata
+        *  *                                            only - it does not affect the structural type - and is
+        *  *                                            used to re-dispatch taint sinks/sources on invocation.
         * @generated
         */
-        public function __construct(array<int, \Psalm\Storage\FunctionLikeParameter> $params = null, ?\Psalm\Type\Union $return_type = null, int $allowed_mutations = \Psalm\Storage\Mutations::LEVEL_ALL, array<string, bool> $byref_uses = [], array<string, \Psalm\Type\Atomic\TNamedObject|\Psalm\Type\Atomic\TTemplateParam|\Psalm\Type\Atomic\TIterable|\Psalm\Type\Atomic\TObjectWithProperties|\Psalm\Type\Atomic\TCallableObject> $extra_types = [], bool $from_docblock = false): void;
+        public function __construct(array<int, \Psalm\Storage\FunctionLikeParameter> $params = null, ?\Psalm\Type\Union $return_type = null, int $allowed_mutations = \Psalm\Storage\Mutations::LEVEL_ALL, array<string, bool> $byref_uses = [], array<string, \Psalm\Type\Atomic\TNamedObject|\Psalm\Type\Atomic\TTemplateParam|\Psalm\Type\Atomic\TIterable|\Psalm\Type\Atomic\TObjectWithProperties|\Psalm\Type\Atomic\TCallableObject> $extra_types = [], bool $from_docblock = false, ?string $callable_id = null): void;
         public function canBeFullyExpressedInPhp(int $analysis_php_version_id): bool;
         protected function getChildNodeKeys(): array;
     }
@@ -9444,6 +11990,7 @@ namespace Psalm\Type\Atomic {
     * Internal representation of a conditional return type in phpdoc. For example ($param1 is int ? int : string)
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TConditional extends \Psalm\Type\Atomic {
@@ -9491,6 +12038,7 @@ namespace Psalm\Type\Atomic {
     * Represents a string whose value is a fully-qualified class found by get_class($var)
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TDependentGetClass extends \Psalm\Type\Atomic\TString implements \Psalm\Type\Atomic\DependentType {
@@ -9519,6 +12067,7 @@ namespace Psalm\Type\Atomic {
     * Represents a string whose value is that of a type found by get_debug_type($var)
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TDependentGetDebugType extends \Psalm\Type\Atomic\TString implements \Psalm\Type\Atomic\DependentType {
@@ -9545,6 +12094,7 @@ namespace Psalm\Type\Atomic {
     * Represents a string whose value is that of a type found by gettype($var)
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TDependentGetType extends \Psalm\Type\Atomic\TString {
@@ -9566,6 +12116,7 @@ namespace Psalm\Type\Atomic {
     * Generated for `$x` inside the `if` statement `if (!$x) {...}` when `$x` is `mixed` outside.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TEmptyMixed extends \Psalm\Type\Atomic\TMixed {
@@ -9579,6 +12130,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `numeric` type that's also empty (which can also result from an `is_numeric` and `empty` check).
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TEmptyNumeric extends \Psalm\Type\Atomic\TNumeric {
@@ -9592,6 +12144,7 @@ namespace Psalm\Type\Atomic {
     * Denotes a `scalar` type that is also empty.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TEmptyScalar extends \Psalm\Type\Atomic\TScalar {
@@ -9605,6 +12158,7 @@ namespace Psalm\Type\Atomic {
     * Denotes an enum with a specific value
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TEnumCase extends \Psalm\Type\Atomic\TNamedObject {
@@ -9628,6 +12182,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `false` value type
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TFalse extends \Psalm\Type\Atomic\TBool {
@@ -9651,6 +12206,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `float` type, where the exact value is unknown.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     class TFloat extends \Psalm\Type\Atomic\Scalar {
@@ -9670,6 +12226,7 @@ namespace Psalm\Type\Atomic {
     * Denotes an object type that has generic parameters e.g. `ArrayObject<string, Foo\Bar>`
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TGenericObject extends \Psalm\Type\Atomic\TNamedObject {
@@ -9714,6 +12271,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `int` type, where the exact value is unknown.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     class TInt extends \Psalm\Type\Atomic\Scalar {
@@ -9735,6 +12293,7 @@ namespace Psalm\Type\Atomic {
     * `int-mask<1, 2, 4>` corresponds to `0|1|2|3|4|5|6|7`
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TIntMask extends \Psalm\Type\Atomic\TInt {
@@ -9764,6 +12323,7 @@ namespace Psalm\Type\Atomic {
     * `int-mask-of<MyClass::CLASS_CONSTANT_*>` will corresponds to `0|1|2|3|4|5|6|7` if there are three constant 1, 2 and 4
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TIntMaskOf extends \Psalm\Type\Atomic\TInt {
@@ -9790,6 +12350,7 @@ namespace Psalm\Type\Atomic {
     * Denotes an interval of integers between two bounds
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TIntRange extends \Psalm\Type\Atomic\TInt {
@@ -9854,6 +12415,7 @@ namespace Psalm\Type\Atomic {
     * denotes the `iterable` type(which can also result from an `is_iterable` check).
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TIterable extends \Psalm\Type\Atomic {
@@ -9897,6 +12459,7 @@ namespace Psalm\Type\Atomic {
     *
     * @psalm-api
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TKeyedArray extends \Psalm\Type\Atomic {
@@ -10007,6 +12570,7 @@ namespace Psalm\Type\Atomic {
     * Represents an offset of an array.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TKeyOf extends \Psalm\Type\Atomic\TArrayKey {
@@ -10044,6 +12608,7 @@ namespace Psalm\Type\Atomic {
     * Denotes a specific class string, generated by expressions like `A::class`.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TLiteralClassString extends \Psalm\Type\Atomic\TLiteralString {
@@ -10078,6 +12643,7 @@ namespace Psalm\Type\Atomic {
     * Denotes a floating point value where the exact numeric value is known.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TLiteralFloat extends \Psalm\Type\Atomic\TFloat {
@@ -10096,6 +12662,7 @@ namespace Psalm\Type\Atomic {
     * Denotes an integer value where the exact numeric value is known.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TLiteralInt extends \Psalm\Type\Atomic\TInt {
@@ -10114,6 +12681,7 @@ namespace Psalm\Type\Atomic {
     * Denotes a string whose value is known.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     class TLiteralString extends \Psalm\Type\Atomic\TString {
@@ -10142,7 +12710,6 @@ namespace Psalm\Type\Atomic {
         */
         public static function make(string $value, bool $from_docblock = false): self;
         /**
-        * @psalm-suppress PossiblyUnusedMethod
         * @return self
         * @generated
         */
@@ -10158,6 +12725,7 @@ namespace Psalm\Type\Atomic {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TLowercaseString extends \Psalm\Type\Atomic\TString {
@@ -10176,6 +12744,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `mixed` type, used when you don’t know the type of an expression.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     class TMixed extends \Psalm\Type\Atomic {
@@ -10208,6 +12777,7 @@ namespace Psalm\Type\Atomic {
     * Denotes an object type where the type of the object is known e.g. `Exception`, `Throwable`, `Foo\Bar`
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     class TNamedObject extends \Psalm\Type\Atomic {
@@ -10268,6 +12838,7 @@ namespace Psalm\Type\Atomic {
     * terminating (like the builtin `exit()`).
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TNever extends \Psalm\Type\Atomic {
@@ -10295,6 +12866,7 @@ namespace Psalm\Type\Atomic {
     * It expects an array with two elements, both union types.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TNonEmptyArray extends \Psalm\Type\Atomic\TArray {
@@ -10319,6 +12891,7 @@ namespace Psalm\Type\Atomic {
     * Denotes a non-empty-string where every character is lowercased. (which can also result from a `strtolower` call).
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TNonEmptyLowercaseString extends \Psalm\Type\Atomic\TNonEmptyString {
@@ -10340,6 +12913,7 @@ namespace Psalm\Type\Atomic {
     * Generated for `$x` inside the `if` statement `if ($x) {...}` when `$x` is `mixed` outside.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TNonEmptyMixed extends \Psalm\Type\Atomic\TMixed {
@@ -10355,6 +12929,7 @@ namespace Psalm\Type\Atomic {
     * we know that the string is not from user input
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TNonEmptyNonspecificLiteralString extends \Psalm\Type\Atomic\TNonspecificLiteralString {
@@ -10368,6 +12943,7 @@ namespace Psalm\Type\Atomic {
     * Denotes a `scalar` type that is also non-empty.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TNonEmptyScalar extends \Psalm\Type\Atomic\TScalar {
@@ -10381,6 +12957,7 @@ namespace Psalm\Type\Atomic {
     * Denotes a string, that is also non-empty (every string except '')
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     class TNonEmptyString extends \Psalm\Type\Atomic\TString {
@@ -10394,6 +12971,7 @@ namespace Psalm\Type\Atomic {
     * Denotes a string, that is also non-falsy (every string except '' and '0')
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     class TNonFalsyString extends \Psalm\Type\Atomic\TNonEmptyString {
@@ -10409,6 +12987,7 @@ namespace Psalm\Type\Atomic {
     * we know that the int is not from user input
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TNonspecificLiteralInt extends \Psalm\Type\Atomic\TInt {
@@ -10434,6 +13013,7 @@ namespace Psalm\Type\Atomic {
     * we know that the string is not from user input
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     class TNonspecificLiteralString extends \Psalm\Type\Atomic\TString {
@@ -10457,6 +13037,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `null` type
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TNull extends \Psalm\Type\Atomic {
@@ -10482,6 +13063,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `numeric` type (which can also result from an `is_numeric` check).
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     class TNumeric extends \Psalm\Type\Atomic\Scalar {
@@ -10506,6 +13088,7 @@ namespace Psalm\Type\Atomic {
     * Denotes a string that's also a numeric value e.g. `"5"`. It can result from `is_string($s) && is_numeric($s)`.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TNumericString extends \Psalm\Type\Atomic\TNonEmptyString {
@@ -10534,6 +13117,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `object` type
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     class TObject extends \Psalm\Type\Atomic {
@@ -10558,6 +13142,7 @@ namespace Psalm\Type\Atomic {
     * Denotes an object with specified member variables e.g. `object{foo:int, bar:string}`.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TObjectWithProperties extends \Psalm\Type\Atomic\TObject {
@@ -10614,6 +13199,7 @@ namespace Psalm\Type\Atomic {
     * their appropriate types as values.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TPropertiesOf extends \Psalm\Type\Atomic {
@@ -10667,6 +13253,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `resource` type (e.g. a file handle).
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TResource extends \Psalm\Type\Atomic {
@@ -10694,6 +13281,7 @@ namespace Psalm\Type\Atomic {
     * This type encompasses `float`, `int`, `bool` and `string`.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     class TScalar extends \Psalm\Type\Atomic\Scalar {
@@ -10723,6 +13311,7 @@ namespace Psalm\Type\Atomic {
     * Denotes a string that has a length of 1
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TSingleLetter extends \Psalm\Type\Atomic\TNonEmptyString {
@@ -10731,6 +13320,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `string` type, where the exact value is unknown.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     class TString extends \Psalm\Type\Atomic\Scalar {
@@ -10748,6 +13338,7 @@ namespace Psalm\Type\Atomic {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TTemplateIndexedAccess extends \Psalm\Type\Atomic {
@@ -10773,6 +13364,7 @@ namespace Psalm\Type\Atomic {
     * Represents the type used when using TKeyOf when the type of the array is a template
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TTemplateKeyOf extends \Psalm\Type\Atomic {
@@ -10804,6 +13396,7 @@ namespace Psalm\Type\Atomic {
     * denotes a template parameter that has been previously specified in a `@template` tag.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TTemplateParam extends \Psalm\Type\Atomic {
@@ -10851,6 +13444,7 @@ namespace Psalm\Type\Atomic {
     * Denotes a `class-string` corresponding to a template parameter previously specified in a `@template` tag.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TTemplateParamClass extends \Psalm\Type\Atomic\TClassString {
@@ -10870,6 +13464,7 @@ namespace Psalm\Type\Atomic {
     * Represents the type used when using TPropertiesOf when the type of the array is a template
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TTemplatePropertiesOf extends \Psalm\Type\Atomic {
@@ -10900,6 +13495,7 @@ namespace Psalm\Type\Atomic {
     * Represents the type used when using TValueOf when the type of the array or enum is a template
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TTemplateValueOf extends \Psalm\Type\Atomic {
@@ -10931,6 +13527,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `trait-string` type, used to describe a string representing a valid PHP trait.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TTraitString extends \Psalm\Type\Atomic\TString {
@@ -10961,6 +13558,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `true` value type
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TTrue extends \Psalm\Type\Atomic\TBool {
@@ -10982,6 +13580,7 @@ namespace Psalm\Type\Atomic {
     }
     /**
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TTypeAlias extends \Psalm\Type\Atomic {
@@ -11009,11 +13608,52 @@ namespace Psalm\Type\Atomic {
         public function getAssertionString(): string;
     }
     /**
+    * Denotes a type variable: a placeholder (e.g. `` `_0 ``) minted for a class template
+    *
+    * at a construction site, where PHP has no type arguments that could pin it. Constraints
+    * accumulate against it in the surrounding function-like's TypeVariableTracker while the
+    * variable flows through the body, and are reconciled with each other when the
+    * function-like has been analyzed.
+    *
+    * @psalm-immutable
+    * @api
+    * @generated
+    */
+    final class TTypeVariable extends \Psalm\Type\Atomic {
+        use \Psalm\Storage\UnserializeMemoryUsageSuppressionTrait;
+        public readonly string $name;
+        public function getKey(bool $include_extra = true): string;
+        /**
+        * Renders the variable through the bounds recorded against it so far: the
+        *
+        * union of its lower bounds, or the constraint it was minted with when
+        * nothing has bound it from below.
+        *
+        * @psalm-suppress ImpureMethodCall the bounds accumulate while the variable
+        *      flows through the function body, and the variable always displays
+        *      their current state
+        * @generated
+        */
+        public function getId(bool $exact = true, bool $nested = false): string;
+        /**
+        * @param array<mixed, string> $aliased_classes
+        * @psalm-pure
+        * @generated
+        */
+        public function toPhpString(?string $namespace, array<mixed, string> $aliased_classes, ?string $this_class, int $analysis_php_version_id): ?string;
+        /**
+        * @psalm-pure
+        * @generated
+        */
+        public function canBeFullyExpressedInPhp(int $analysis_php_version_id): bool;
+    }
+    /**
     * Denotes the `class-string` type, used to describe a string representing a valid PHP class.
     *
     * The parent type from which the classes descend may or may not be specified in the constructor.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TUnknownClassString extends \Psalm\Type\Atomic\TClassString {
@@ -11024,6 +13664,7 @@ namespace Psalm\Type\Atomic {
     * Represents a value of an array or enum.
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TValueOf extends \Psalm\Type\Atomic {
@@ -11063,6 +13704,7 @@ namespace Psalm\Type\Atomic {
     * Denotes the `void` type, normally just used to annotate a function/method that returns nothing
     *
     * @psalm-immutable
+    * @api
     * @generated
     */
     final class TVoid extends \Psalm\Type\Atomic {

@@ -2,9 +2,15 @@
 /**
  * LAYER 3 (hand overlay) — Tyhp-authored. Never regenerated.
  * Path: `_tyhpdef/overlays/*.tyhpdef` (not under overlays/stubs/).
- * Hook handlers are class names. Composer ClassLoader is unowned.
- * Language Server Protocol types come from tyhpdef/felixfbecker-language-server-protocol.
+ * Hook handlers are class names.
+ * Language-server protocol types and Composer ClassLoader are unowned — extern.
  */
+
+extern class \Composer\Autoload\ClassLoader;
+extern class \LanguageServerProtocol\CompletionItem;
+extern class \LanguageServerProtocol\Position;
+extern class \LanguageServerProtocol\Range;
+extern class \LanguageServerProtocol\SignatureInformation;
 
 namespace Psalm {
     /**
@@ -133,115 +139,6 @@ namespace Psalm {
     }
 }
 
-namespace Psalm\Internal\Analyzer {
-    /**
-     * @internal
-     * Omitted from Layer 1. Implements the harvested StatementsSource surface.
-     * getFileAnalyzer and getProjectAnalyzer stay off this overlay: those return
-     * types are also @internal and are not in Layer 1.
-     */
-    abstract class SourceAnalyzer implements \Psalm\StatementsSource {
-        protected SourceAnalyzer $source;
-
-        public function __destruct(): void;
-
-        public function addSuppressedIssues(array<int, string> $new_issues): void;
-
-        public function getAliases(): \Psalm\Aliases;
-
-        /**
-         * @return array<string, string>
-         */
-        public function getAliasedClassesFlipped(): array<string, string>;
-
-        public function getAliasedClassesFlippedReplaceable(): array<string, string>;
-
-        public function getClassName(): ?string;
-
-        public function getCodebase(): \Psalm\Codebase;
-
-        public function getFileName(): string;
-
-        public function getFilePath(): string;
-
-        public function getFQCLN(): ?string;
-
-        public function getNamespace(): ?string;
-
-        public function getNodeTypeProvider(): \Psalm\NodeTypeProvider;
-
-        public function getParentFQCLN(): ?string;
-
-        public function getRequireNesting(): int;
-
-        public function getRootFileName(): string;
-
-        public function getRootFilePath(): string;
-
-        public function getSource(): \Psalm\StatementsSource;
-
-        public function getSuppressedIssues(): array<string>;
-
-        public function getTemplateTypeMap(): array<string, array<string, \Psalm\Type\Union>>|null;
-
-        public function hasAlreadyRequiredFilePath(string $file_path): bool;
-
-        public function hasParentFilePath(string $file_path): bool;
-
-        public function isStatic(): bool;
-
-        public function removeSuppressedIssues(array<int, string> $new_issues): void;
-
-        public function setRootFilePath(string $file_path, string $file_name): void;
-
-        public function signalMutation(int $mutation_level, \Psalm\Context $context, string $msg, string $class, \PhpParser\Node $node, ?int $inferred_mutation_level = null, bool $overrideMsg = false, ?\Psalm\Storage\FunctionLikeStorage $storage = null): void;
-
-        public function signalMutationOnlyInferred(int $mutation_level, ?\Psalm\Storage\FunctionLikeStorage $storage = null): void;
-    }
-
-    /**
-     * @internal
-     * Omitted from Layer 1. Members whose return types are still omitted
-     * (FileAnalyzer, flow graphs, FunctionAnalyzer, ParsedDocblock, NodeDataProvider)
-     * are not restated.
-     */
-    final class StatementsAnalyzer extends SourceAnalyzer {
-        public array<string, array<int, \Psalm\CodeLocation>> $foreach_var_locations;
-
-        public function addVariableInitialization(string $var_id, int $branch_point): void;
-
-        public function analyze(array<int, \PhpParser\Node\Stmt> $stmts, \Psalm\Context $context, ?\Psalm\Context $global_context = null): ?bool;
-
-        public function getBranchPoint(string $var_id): ?int;
-
-        public function getFirstAppearance(string $var_id): ?\Psalm\CodeLocation;
-
-        public function getFullyQualifiedFunctionMethodOrNamespaceName(): ?string;
-
-        /**
-         * @return array<string, array<int|string, \Psalm\CodeLocation>>
-         */
-        public function getUncaughtThrows(\Psalm\Context $context): array<string, array<int|string, \Psalm\CodeLocation>>;
-
-        /**
-         * @return array<string, array<int, \Psalm\CodeLocation|string>>
-         */
-        public function getUnusedVarLocations(): array<string, array<int, \Psalm\CodeLocation|string>>;
-
-        public function hasVariable(string $var_name): bool;
-
-        public function registerPossiblyUndefinedVariable(string $undefined_var_id, \PhpParser\Node\Expr\Variable $stmt): void;
-
-        public function registerVariable(string $var_id, \Psalm\CodeLocation $location, ?int $branch_point): void;
-
-        public function registerVariableAssignment(string $var_id, \Psalm\CodeLocation $location): void;
-
-        public function setByRefUses(array<string, true> $byref_uses): void;
-
-        public function setFQCLN(string $fake_this_class): void;
-    }
-}
-
 namespace Psalm\Plugin {
     /**
      * Overlay: hook handlers are class names.
@@ -255,8 +152,6 @@ namespace Psalm\Plugin {
         public function registerHooksFromClass(\__ClassName $handler): void;
     }
 }
-
-extern class \Composer\Autoload\ClassLoader;
 
 namespace Psalm\Issue {
     // @overlay-against: class InternalClass extends \Psalm\Issue\ClassIssue

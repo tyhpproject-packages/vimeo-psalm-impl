@@ -7,8 +7,7 @@
         "../composer.json",
         "../../../php/composer.json",
         "../../../nikic-php-parser/5.9.0/composer.json",
-        "../../../php-ext-simplexml/composer.json",
-        "../../../felixfbecker-language-server-protocol/1.5.3/composer.json"
+        "../../../php-ext-simplexml/composer.json"
     ],
     "exclude": [
         "./fail/**"
