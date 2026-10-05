@@ -9046,6 +9046,16 @@ namespace Psalm\Storage {
         public int $allowed_mutations ?? \Psalm\Storage\Mutations::LEVEL_ALL;
         public bool $has_mutations_annotation ?? false;
         /**
+        * Whether the return value of this function/method must be used by callers.
+        *
+        * Set when the function-like is annotated with PHP 8.5's `#[\NoDiscard]` attribute.
+        * When true, Psalm reports the return value being discarded at a call site
+        * independently of purity and the find-unused-variables setting.
+        *
+        * @generated
+        */
+        public bool $no_discard ?? false;
+        /**
         * Whether or not the function output is dependent solely on input - a function can be
         *
         * impure but still have this property (e.g. var_export). Useful for taint analysis.
@@ -13628,6 +13638,16 @@ namespace Psalm\Type\Atomic {
         *
         * union of its lower bounds, or the constraint it was minted with when
         * nothing has bound it from below.
+        * 
+        * The inexact (display) form renders as the bare bound, so ordinary output
+        * matches Hack's eager `new Foo<_>(...)` inference and the old pre-variable
+        * pinning. The exact form additionally names the variable (`` `_0:bound ``),
+        * mirroring how {@see TTemplateParam::getId()} exposes `T:Class as ...`: a
+        * variable that survives into an exact rendering — a `@psalm-trace`, an
+        * issue message, a type-identity key — is then visible as an unreconciled
+        * variable rather than silently masquerading as its resolved bound, which is
+        * what let one leak unnoticed into array access (`$var[0]` on a variable
+        * that prints like an array but was never resolved to one).
         *
         * @psalm-suppress ImpureMethodCall the bounds accumulate while the variable
         *      flows through the function body, and the variable always displays
